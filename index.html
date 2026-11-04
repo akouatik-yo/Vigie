@@ -188,6 +188,11 @@ details.fils-clos summary { cursor: pointer; font: 500 13px var(--ui); color: va
 @media (max-width: 960px) { #listeThemes [id^="mur-"] { scroll-margin-top: calc(120px + env(safe-area-inset-top, 0px)) } }
 .sommaire .sep-mur { font: 600 11px var(--ui); letter-spacing: .08em; text-transform: uppercase; color: var(--gris); padding: 14px 12px 4px }
 .sommaire a.seul-mur, .puces-themes a.seul-mur, .panneau-themes a.seul-mur { border-left-style: dashed; font-style: italic; opacity: .8 }
+.sommaire a.dossier, .puces-themes a.dossier, .panneau-themes a.dossier { border-left-style: double; border-left-width: 4px }
+a.dossier .nb { white-space: nowrap; flex: none; font-size: .8em; opacity: .75; font-family: var(--ui) }
+.theme.dossier { border-top-style: double; border-top-width: 6px; background: linear-gradient(color-mix(in srgb, var(--c) 5%, transparent), transparent 220px); padding-left: 10px; padding-right: 10px; border-radius: 0 0 6px 6px }
+.dossiers-tete { margin: 34px 0 14px } .dossiers-tete h3 { margin: 0 0 4px } .dossiers-tete p { margin: 0; font: 14px var(--ui); color: var(--gris) }
+.date-dossier { font: 600 12px var(--ui); color: var(--gris); border: 1px solid var(--trait); border-radius: 999px; padding: 2px 9px }
 a.seul-mur .nb { white-space: nowrap; flex: none; font-style: normal; font-size: .85em; opacity: .7 }
 @media (max-width: 960px) {
   .themes-grille { grid-template-columns: 1fr }
@@ -700,8 +705,8 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 
   <section id="coulisses"><div class="cadre">
     <div class="spectre" id="spectre" hidden>
-      <div class="etiq">D'où viennent les liens de cette édition</div>
-      <div class="spectre-barre" id="spectreBarre"></div>
+      <div class="etiq">D'où viennent les liens de cette édition (bords, puis nature des sources)</div>
+      <div id="spectreBarre" style="display:grid;gap:5px;margin:8px 0 6px"></div>
       <div class="spectre-leg" id="spectreLeg"></div>
     </div>
     <div class="tete-sec"><h2>Coulisses</h2><span class="etiq">Équilibre des sources, collecte, note de la rédaction</span></div>
@@ -867,10 +872,9 @@ const BORDS = {
   "extreme-gauche": ["Extrême gauche", "--g2"], "gauche": ["Gauche", "--g1"], "centre-gauche": ["Centre gauche", "--g1"],
   "centre": ["Centre", "--c0"], "centre-droit": ["Centre droit", "--d1"], "droite": ["Droite", "--d1"], "extreme-droite": ["Extrême droite", "--d2"],
   "souverainiste": ["Souverainiste", "--d1"], "service-public": ["Service public", "--c0"], "universitaire": ["Universitaire", "--autre"],
-  "specialise": ["Spécialisé", "--autre"], "etranger": ["Étranger", "--autre"], "local": ["Local", "--c0"], "independant": ["Indépendant", "--autre"], "agregateur": ["Agrégateur", "--c0"]
+  "specialise": ["Spécialisé", "--autre"], "etranger": ["Étranger", "--autre"], "local": ["Local", "--c0"], "independant": ["Indépendant", "--autre"], "agregateur": ["Agrégateur", "--c0"],
+  "antisysteme": ["Antisystème, complotiste", "--autre"]
 };
-const ORDRE_SPECTRE = ["extreme-gauche", "gauche", "centre-gauche", "centre", "service-public", "centre-droit", "droite", "souverainiste", "extreme-droite", "universitaire", "specialise", "etranger", "local", "independant", "agregateur"];
-const COULEUR_SPECTRE = { "extreme-gauche": "--g2", "gauche": "--g1", "centre-gauche": "--g1", "centre": "--c0", "service-public": "--c0", "centre-droit": "--d1", "droite": "--d1", "souverainiste": "--d1", "extreme-droite": "--d2" };
 const bordHtml = b => { const x = BORDS[b]; return x ? `<span class="bord" style="--c:var(${x[1]})">${esc(x[0])}</span>` : (b ? `<span class="bord">${esc(b)}</span>` : ""); };
 const ACCES = { libre: "Libre", abonnes: "Abonnés", payant: "Payant", mixte: "Mixte", inconnu: "Accès ?" };
 const accesHtml = a => a ? `<span class="acces ${esc(a)}">${esc(ACCES[a] || a)}</span>` : "";
@@ -878,7 +882,7 @@ const TYPES_LIEN = { rapport: "Rapport", article: "Article", analyse: "Analyse",
 const ONGLETS = [["selection", "Sélection"], ["tout", "Tout"], ["actu", "Actu"], ["analyse", "Débats et émissions"], ["decouverte", "Découverte"], ["culture", "Culture"], ["divertissement", "Divertissement"], ["humour", "Humour"], ["direct", "En direct"]];
 const PERIODES = [["quotidien", "Chaque jour"], ["lundi", "Le lundi"], ["mardi", "Le mardi"], ["mercredi", "Le mercredi"], ["jeudi", "Le jeudi"], ["vendredi", "Le vendredi"], ["samedi", "Le samedi"], ["dimanche", "Le dimanche"], ["mer_sam", "Mercredi et samedi"], ["si_neuf", "S'il y a du neuf"]];
 
-let db = null, edition = null, sources = [], etatCollecte = null, consignes = [], retours = [], configThemes = null, proprio = true;
+let db = null, edition = null, sources = [], sourcesBase = [], sourcesMaj = {}, etatCollecte = null, consignes = [], retours = [], configThemes = null, proprio = true;
 let pastilleDispo = false, sample = null, tours = [], ctl = null;
 const lus = new Set(stocke.lire("vigie-lus", []));
 /* Icônes des sources (icones/lot-N) et miniatures des vidéos (vignettes/<date>-N), stockées dans la base par le collecteur */
@@ -1132,16 +1136,7 @@ function rendreEssentiel(e) {
   $("#uneGrille").innerHTML = oreilles + leadHtml + `<div class="une-cols">${essHtml}${bougeHtml}</div>`
     + (themes.length ? `<div class="une-rub large">Dans les thèmes</div><div class="une-themes">${thCartes}</div>` : "")
     + (cartes.length ? `<div class="une-rub large">Et aussi</div><div class="une-cartes">${cartes.join("")}</div>` : "");
-  // spectre des bords (désormais dans les coulisses)
-  const n = {};
-  for (const t of themes) for (const li of liensTheme(t)) if (li.b) n[li.b] = (n[li.b] || 0) + 1;
-  const total = Object.values(n).reduce((a, b) => a + b, 0);
-  $("#spectre").hidden = !total;
-  if (total) {
-    const cles = ORDRE_SPECTRE.filter(k => n[k]).concat(Object.keys(n).filter(k => !ORDRE_SPECTRE.includes(k)));
-    $("#spectreBarre").innerHTML = cles.map(k => `<i title="${esc(BORDS[k]?.[0] || k)} : ${n[k]}" style="width:${n[k] / total * 100}%;background:var(${COULEUR_SPECTRE[k] || BORDS[k]?.[1] || "--c0"});opacity:${COULEUR_SPECTRE[k] ? 1 : .55}"></i>`).join("");
-    $("#spectreLeg").innerHTML = cles.map(k => `<span style="--c:var(${COULEUR_SPECTRE[k] || BORDS[k]?.[1] || "--c0"})">${esc(BORDS[k]?.[0] || k)} ${n[k]}</span>`).join("");
-  }
+  rendreSpectre(e);
   rendreCaricature(e);
 }
 
@@ -1193,15 +1188,15 @@ const listeLiens = (tous, th) => { if (!(tous || []).length) return ""; const nv
 const cleLu = () => "vigie-lu-" + (edition?.date || "");
 let themesLus = new Set();
 const liensTheme = t => (t.sujets || []).length ? t.sujets.flatMap(sj => sj.liens || []) : (t.liens || []);
-function themeHtml(t) {
+function themeHtml(t, dossier) {
   const c = couleurTh(t.id), liens = liensTheme(t);
   const marge = [
     (t.chiffres || []).length ? `<div class="chiffres-th">${t.chiffres.map(x => `<div class="chiffre"><b>${esc(x.v)}</b><span>${esc(x.l)}${x.src ? ` · ${esc(x.src)}` : ""}</span></div>`).join("")}</div>` : "",
     t.visuel ? visuelHtml(t.visuel) : "",
     (t.ils_lont_dit || []).length ? `<div class="dits"><div class="etiq">Ils l'ont dit</div>${t.ils_lont_dit.map(d => `<div class="dit"><b>${esc(d.qui)}</b>${d.qualite ? `<small>${esc(d.qualite)}</small>` : ""}<q>${esc(d.extrait)}</q><small>${d.date ? new Date(d.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short" }) + " · " : ""}<a href="${esc(lienSur(d.u))}" target="_blank" rel="noopener">${esc(RESEAUX[d.reseau] || d.reseau || "message")}</a> · propos publié, non vérifié par la Vigie</small></div>`).join("")}</div>` : ""
   ].filter(Boolean).join("");
-  return `<article class="theme" id="th-${esc(t.id)}" style="--c:${c}">
-    <div class="theme-tete"><span class="etiq">${esc(t.titre || THEMES[t.id] || t.id)}</span>${t.confiance && t.confiance !== "mixte" ? `<span class="conf ${esc(t.confiance)}">${esc({ documente: "Bien documenté", incertain: "Incertain" }[t.confiance] || t.confiance)}</span>` : ""}${t.hors_jour ? `<span class="conf">Hors de son jour : actualité majeure</span>` : ""}</div>
+  return `<article class="theme${dossier ? " dossier" : ""}" id="th-${esc(t.id)}" style="--c:${c}">
+    <div class="theme-tete"><span class="etiq">${esc(t.titre || THEMES[t.id] || t.id)}</span>${dossier ? `<span class="date-dossier">Dossier de la semaine · rédigé le ${esc(dateLongue(dossier))}</span>` : ""}${t.confiance && t.confiance !== "mixte" ? `<span class="conf ${esc(t.confiance)}">${esc({ documente: "Bien documenté", incertain: "Incertain" }[t.confiance] || t.confiance)}</span>` : ""}${t.hors_jour ? `<span class="conf">Hors de son jour : actualité majeure</span>` : ""}</div>
     <h3 class="manchette">${esc(t.manchette || "")}</h3>
     <div class="theme-corps ${marge ? "avec-marge" : ""}">
       <div>${(t.sujets || []).length ? t.sujets.map((sj, k) => `<div class="sujet" id="sj-${esc(t.id)}-${k}">
@@ -1273,9 +1268,43 @@ function lierToutesSources() {
 function rendreThemes(e) {
   const th = e.themes || [];
   themesLus = new Set(stocke.lire(cleLu(), []));
-  $("#listeThemes").innerHTML = (th.length ? th.map(themeHtml).join("") : `<div class="vide"><strong>Édition sans thèmes</strong>La rédaction n'a pas écrit de synthèse pour cette date.</div>`) + `<section class="murs-autres" id="mursAutres">${mursAutresHtml()}</section>`;
+  $("#listeThemes").innerHTML = (th.length ? th.map(t => themeHtml(t)).join("") : `<div class="vide"><strong>Édition sans thèmes</strong>La rédaction n'a pas écrit de synthèse pour cette date.</div>`) + `<section id="dossiersSemaine">${dossiersHtml(e)}</section><section class="murs-autres" id="mursAutres">${mursAutresHtml()}</section>`;
   rendreSommaire();
   observerLecture();
+  if (dossiers.date !== e.date) chargerDossiers(e);
+}
+/* Dossiers de la semaine : un thème hebdomadaire (périodicité « lundi » … « dimanche ») absent de l'édition du jour reste
+   lisible toute la semaine, tel que rédigé le jour de sa rubrique (8 jours au plus), avec sa date. */
+const PERIODES_HEBDO = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche", "mer_sam"];
+const HEBDO_DEFAUT = { societe: "lundi", economie: "mercredi", science: "jeudi", ecologie: "vendredi", divertissements: "dimanche" };
+let dossiers = { date: null, liste: [] };
+function themesHebdo() {
+  const l = configThemes?.themes?.length ? configThemes.themes.filter(t => t.actif && PERIODES_HEBDO.includes(t.periodicite)).sort((a, b) => (a.ordre || 99) - (b.ordre || 99)).map(t => t.id) : Object.keys(HEBDO_DEFAUT);
+  return l;
+}
+function dossiersHtml(e) {
+  const l = dossiers.date === e?.date ? dossiers.liste : [];
+  return l.length ? `<div class="dossiers-tete"><h3>Dossiers de la semaine</h3><p>Rédigés le jour de leur rubrique sur l'actualité des sept jours précédents ; ils restent en lecture jusqu'au dossier suivant. Les articles du jour suivent chaque dossier.</p></div>` + l.map(t => themeHtml(t, t._date)).join("") : "";
+}
+async function chargerDossiers(e) {
+  if (!db || !e?.date) return;
+  dossiers = { date: e.date, liste: [] };
+  const presents = new Set((e.themes || []).filter(t => !t.hors_jour).map(t => t.id));
+  let manque = themesHebdo().filter(id => !presents.has(id));
+  const trouves = [], d0 = new Date(e.date + "T12:00:00Z");
+  for (let k = 1; k <= 8 && manque.length; k++) {
+    const d = new Date(d0 - k * 864e5).toISOString().slice(0, 10);
+    try {
+      const s = await db.doc("editions/" + d).get(); if (!s.exists) continue;
+      for (const t of s.data().themes || []) if (manque.includes(t.id) && !t.hors_jour && !t.calme && (t.sujets || []).length) { trouves.push({ ...t, _date: d }); manque = manque.filter(x => x !== t.id); }
+    } catch {}
+  }
+  if (edition !== e) return;
+  const ordre = themesHebdo();
+  dossiers = { date: e.date, liste: trouves.sort((a, b) => ordre.indexOf(a.id) - ordre.indexOf(b.id)) };
+  const el = $("#dossiersSemaine"); if (!el) return;
+  el.innerHTML = dossiersHtml(e);
+  rendreMursEdition(); observerLecture(); lierToutesSources(); rendreCartes();
 }
 function rendreSommaire() {
   const th = edition?.themes || [];
@@ -1283,9 +1312,12 @@ function rendreSommaire() {
   const ia = edition?.ianalyse?.titre ? `<a href="#ianalyse" style="--c:var(--encre)">IAnalyse</a>` : "";
   const sm = themesSeulMur(), lienMur = ([id, n]) => `<a href="#mur-${esc(id)}" class="seul-mur" style="--c:${couleurTh(id)}" title="Pas de synthèse aujourd'hui : seulement les articles du jour">${esc(THEMES[id] || id)}<span class="nb">▦ ${n}</span></a>`;
   const murs = sm.map(lienMur).join("");
-  $("#sommaire").innerHTML = th.map(lien).join("") + ia + (sm.length ? `<div class="sep-mur">Articles seulement</div>` + murs : "");
-  $("#pucesThemes").innerHTML = th.map(lien).join("") + ia + murs;
-  $("#panneauThemes").innerHTML = th.map(lien).join("") + ia + murs + `<a href="#complements" style="--c:var(--trait)">Repères</a>`;
+  const dl = dossiers.date === edition?.date ? dossiers.liste : [];
+  const lienDossier = t => `<a href="#th-${esc(t.id)}" class="dossier ${themesLus.has(t.id) ? "lu" : ""}" style="--c:${couleurTh(t.id)}" title="Dossier de la semaine, rédigé le ${esc(dateLongue(t._date))}">${esc(t.titre || THEMES[t.id] || t.id)}<span class="nb">◷ ${esc(dateCourte(t._date))}</span></a>`;
+  const dos = dl.map(lienDossier).join("");
+  $("#sommaire").innerHTML = th.map(lien).join("") + ia + (dl.length ? `<div class="sep-mur">Dossiers de la semaine</div>` + dos : "") + (sm.length ? `<div class="sep-mur">Articles seulement</div>` + murs : "");
+  $("#pucesThemes").innerHTML = th.map(lien).join("") + ia + dos + murs;
+  $("#panneauThemes").innerHTML = th.map(lien).join("") + ia + dos + murs + `<a href="#coulisses" style="--c:var(--trait)">Coulisses</a>`;
   const n = th.filter(t => themesLus.has(t.id)).length;
   $("#compteurLu").textContent = th.length ? `${n}/${th.length} lus` : "";
   $("#barreLu").style.width = th.length ? (n / th.length * 100) + "%" : "0";
@@ -1383,15 +1415,51 @@ async function rendreJournalIA() {
 $("#journalIA").addEventListener("toggle", ev => { if (ev.target.open) rendreJournalIA(); });
 const dateCourte = d => d ? new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short" }) : "";
 
-/* ---------- Baromètre des bords (7 jours) ---------- */
-const FAMILLES = [["eg", "Extrême gauche", "--g2"], ["g", "Gauche", "--g1"], ["c", "Centre et service public", "--c0"], ["d", "Droite", "--d1"], ["ed", "Extrême droite", "--d2"], ["autre", "Étranger, spécialisé, autres", "--autre"]];
+/* Réglage d'une source : journalisé dans sources_maj/<id> (relu et appliqué par la routine du lendemain) */
+function majSource(id, champs) {
+  const d = sourcesMaj[id] || {};
+  return db.doc("sources_maj/" + id).set({ ...d, id, champs: { ...(d.champs || {}), ...champs }, maj: new Date().toISOString() });
+}
+
+/* ---------- Baromètre des bords (jour et 7 jours, même document barometre/DATE calculé par le collecteur) ---------- */
+const FAMILLES = [["eg", "Extrême gauche", "--g2"], ["g", "Gauche", "--g1"], ["c", "Centre et service public", "--c0"], ["d", "Droite", "--d1"], ["ed", "Extrême droite", "--d2"], ["autre", "Étranger, spécialisé, antisystème, autres", "--autre"]];
+const NATURES = [["media", "Grands médias", "--c0"], ["independant", "Indépendants (idées, rapports, sites)", "--autre"], ["marge", "Marges", "--g2"]];
+function barreBaro(compte, liste, titre) {
+  const n = liste.reduce((a, [k]) => a + (compte?.[k] || 0), 0) || 1;
+  return `<div class="barre" role="img" aria-label="${esc(titre + " : " + liste.filter(([k]) => compte?.[k]).map(([k, l]) => `${l} ${compte[k]}`).join(", "))}">${liste.filter(([k]) => compte?.[k]).map(([k, l, c]) => `<span style="--c:var(${c});flex:${compte[k]}" title="${esc(l)} : ${compte[k]} (${Math.round(compte[k] / n * 100)} %)"></span>`).join("")}</div>`;
+}
+function legendeBaro(liste) { return `<div class="legende">${liste.map(([, l, c]) => `<span style="--c:var(${c})"><i></i>${l}</span>`).join("")}</div>`; }
+function pourcents(compte, cles) {
+  const n = cles.reduce((a, k) => a + (compte?.[k] || 0), 0);
+  return n ? cles.map(k => Math.round((compte[k] || 0) / n * 100) + " %").join(" / ") : "—";
+}
+function sommeBaro(jours, champ) { const t = {}; for (const j of jours) for (const [k, v] of Object.entries(j[champ] || {})) t[k] = (t[k] || 0) + v; return t; }
+async function rendreSpectre(e) {
+  const el = $("#spectre"); if (!el || !db) return;
+  try {
+    const s = await db.doc("barometre/" + e.date).get();
+    const j = s.exists ? s.data() : null;
+    if (!j || edition !== e) { el.hidden = true; return; }
+    el.hidden = false;
+    $("#spectreBarre").innerHTML = `<div class="barometre" style="display:grid;gap:5px">${barreBaro(j.familles, FAMILLES, "Bords")}${j.natures ? barreBaro(j.natures, NATURES, "Nature des sources") : ""}</div>`;
+    $("#spectreLeg").innerHTML = `${j.n} liens d'articles (messages exclus)`
+      + (j.blocs ? ` · gauche / centre / droite : ${pourcents(j.blocs, ["gauche", "centre", "droite"])}` : "")
+      + (j.natures ? ` · grands médias / indépendants / marges : ${pourcents(j.natures, ["media", "independant", "marge"])}` : "");
+  } catch { el.hidden = true; }
+}
 async function rendreBarometre() {
   const el = $("#barometre"); if (!el || !db) return;
   try {
     const jours = enCollection(await db.collection("barometre").orderBy("date", "desc").limit(7).get()).reverse();
     if (!jours.length) { el.closest(".carte").remove(); return; }
-    el.innerHTML = `<div class="legende">${FAMILLES.map(([, l, c]) => `<span style="--c:var(${c})"><i></i>${l}</span>`).join("")}</div>`
-      + jours.map(j => { const n = j.n || 1; return `<div class="jour"><span class="muet">${esc(dateCourte(j.date))}</span><div class="barre" role="img" aria-label="${esc(FAMILLES.filter(([k]) => j.familles?.[k]).map(([k, l]) => `${l} ${j.familles[k]}`).join(", "))}">${FAMILLES.filter(([k]) => j.familles?.[k]).map(([k, l, c]) => `<span style="--c:var(${c});flex:${j.familles[k]}" title="${esc(l)} : ${j.familles[k]} lien${j.familles[k] > 1 ? "s" : ""} (${Math.round(j.familles[k] / n * 100)} %)"></span>`).join("")}</div><span class="muet" style="text-align:right">${esc(j.n)}</span></div>`; }).join("");
+    const ligne = (date, compte, liste, n) => `<div class="jour"><span class="muet">${esc(date)}</span>${barreBaro(compte, liste, date)}<span class="muet" style="text-align:right">${esc(n)}</span></div>`;
+    const fam = sommeBaro(jours, "familles"), nat = sommeBaro(jours, "natures"), blo = sommeBaro(jours, "blocs");
+    const avecNat = jours.filter(j => j.natures);
+    el.innerHTML = legendeBaro(FAMILLES)
+      + jours.map(j => ligne(dateCourte(j.date), j.familles, FAMILLES, j.n)).join("")
+      + `<div style="border-top:1px solid var(--trait);margin-top:6px;padding-top:4px">${ligne("7 jours", fam, FAMILLES, jours.reduce((a, j) => a + (j.n || 0), 0))}</div>`
+      + `<p class="muet ui" style="font-size:13px;margin:4px 0 12px">Gauche / centre / droite sur 7 jours : ${pourcents(Object.keys(blo).length ? blo : { gauche: (fam.eg || 0) + (fam.g || 0), centre: fam.c || 0, droite: (fam.d || 0) + (fam.ed || 0) }, ["gauche", "centre", "droite"])} (objectif : un tiers chacun).</p>`
+      + (avecNat.length ? `<div class="etiq" style="margin-top:6px">Nature des sources</div>${legendeBaro(NATURES)}${avecNat.map(j => ligne(dateCourte(j.date), j.natures, NATURES, Object.values(j.natures).reduce((a, b) => a + b, 0))).join("")}<div style="border-top:1px solid var(--trait);margin-top:6px;padding-top:4px">${ligne("Total", nat, NATURES, Object.values(nat).reduce((a, b) => a + b, 0))}</div><p class="muet ui" style="font-size:13px;margin:4px 0 0">Objectif : 40 % au moins hors grands médias, dont 10 % au moins venus des marges.</p>` : "");
   } catch { el.closest(".carte")?.remove(); }
 }
 
@@ -1591,7 +1659,7 @@ function blocMurTh(id, titre) {
 }
 // Thèmes sans synthèse ce jour-là mais avec des articles (filtres appliqués) : [[id, nombre], …]
 function themesSeulMur() {
-  const traites = new Set((edition?.themes || []).map(t => ALIAS_TH[t.id] || t.id)), n = {};
+  const traites = new Set((edition?.themes || []).concat(dossiers.date === edition?.date ? dossiers.liste : []).map(t => ALIAS_TH[t.id] || t.id)), n = {};
   for (const x of murEd.items.concat(murEd.anciens)) { const th = thMur(x); if (!traites.has(th) && !(th in n)) n[th] = murTheme(th).liste.length; }
   for (const k of Object.keys(n)) if (!n[k]) delete n[k];
   const ordre = THEMES_DEFAUT.map(([k]) => k);
@@ -2150,10 +2218,10 @@ document.addEventListener("click", async ev => {
   } else if ("ftype" in b.dataset) {
     filtreType = b.dataset.ftype; rendreSources();
   } else if (b.dataset.poids) {
-    await ecrire(() => db.doc("sources/" + b.closest(".src-ligne").dataset.id).update({ poids: Number(b.dataset.poids) }));
+    await ecrire(() => majSource(b.closest(".src-ligne").dataset.id, { poids: Number(b.dataset.poids) }));
   } else if ("suppr" in b.dataset) {
     if (b.dataset.confirme !== "1") { b.dataset.confirme = "1"; b.textContent = "Confirmer ?"; setTimeout(() => { b.dataset.confirme = ""; b.textContent = "Retirer"; }, 3500); return; }
-    await ecrire(() => db.doc("sources/" + b.closest(".src-ligne").dataset.id).delete(), "Source retirée");
+    await ecrire(() => db.doc("sources_maj/" + b.closest(".src-ligne").dataset.id).set({ id: b.closest(".src-ligne").dataset.id, retire: true, maj: new Date().toISOString() }), "Source retirée");
   } else if ("csuppr" in b.dataset) {
     await ecrire(() => db.doc("consignes/" + b.closest(".consigne").dataset.id).delete(), "Consigne retirée");
   } else if ("rsuppr" in b.dataset) {
@@ -2169,7 +2237,7 @@ document.addEventListener("click", async ev => {
 });
 document.addEventListener("change", async ev => {
   const t = ev.target;
-  if (t.matches("[data-actif]")) await ecrire(() => db.doc("sources/" + t.closest(".src-ligne").dataset.id).update({ actif: t.checked }), t.checked ? "Source activée" : "Source mise en pause");
+  if (t.matches("[data-actif]")) await ecrire(() => majSource(t.closest(".src-ligne").dataset.id, { actif: t.checked }), t.checked ? "Source activée" : "Source mise en pause");
   if (t.matches("[data-cactif]")) await ecrire(() => db.doc("consignes/" + t.closest(".consigne").dataset.id).update({ actif: t.checked }));
   if (t.matches("[data-th-actif], [data-th-periode]")) {
     const liste = themesConfig(), x = liste.find(y => y.id === t.closest(".theme-ligne").dataset.th);
@@ -2201,7 +2269,7 @@ $("#formSource").addEventListener("submit", async ev => {
   if (type === "x") doc.compte = doc.url.replace(/\/$/, "").split("/").pop();
   if ($("#fOnglet").value) doc.onglet = $("#fOnglet").value;
   if ($("#fNote").value.trim()) doc.note = $("#fNote").value.trim();
-  await ecrire(() => db.doc("sources/" + id).set(doc), "Source ajoutée : elle sera lue dès la prochaine édition");
+  await ecrire(() => db.doc("sources_maj/" + id).set({ id, doc, maj: new Date().toISOString() }), "Source ajoutée : elle sera lue dès la prochaine édition");
   ev.target.reset();
 });
 $("#formConsigne").addEventListener("submit", async ev => {
@@ -2267,9 +2335,22 @@ lireAncre();
   if (vueActive === "presidentielle") chargerPres();
   remplirChoixEditions();
   chargerIcones();
-  db.collection("sources").onSnapshot(s => { const premier = !sources.length; sources = enCollection(s); rendreSources(); if (premier && edition) { rendreThemes(edition); rendreIAnalyse(edition); rendreEssentiel(edition); lierToutesSources(); rendreCartes(); } if (vueActive === "videos") rendreProgramme(); }, () => {});
+  // Sources (novembre 2026) : la liste de référence vit dans le dépôt privé et la routine la publie chaque matin dans
+  // config/sources ; les réglages faits ici vont dans sources_maj (un document par source), relus par la routine le lendemain.
+  const appliquerSources = () => {
+    const premier = !sources.length, m = new Map(sourcesBase.map(x => [x.id, x]));
+    for (const [id, d] of Object.entries(sourcesMaj)) { if (d.retire) m.delete(id); else m.set(id, { ...(m.get(id) || {}), ...(d.doc || {}), ...(d.champs || {}), id }); }
+    sources = [...m.values()]; rendreSources();
+    if (premier && sources.length && edition) { rendreThemes(edition); rendreIAnalyse(edition); rendreEssentiel(edition); lierToutesSources(); rendreCartes(); }
+    if (vueActive === "videos") rendreProgramme();
+  };
+  db.doc("config/sources").onSnapshot(s => {
+    if (s.exists) { sourcesBase = s.data().liste || []; appliquerSources(); }
+    else db.collection("sources").get().then(c => { sourcesBase = enCollection(c); appliquerSources(); }, () => {});  // ancienne forme
+  }, () => {});
+  db.collection("sources_maj").onSnapshot(s => { sourcesMaj = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); appliquerSources(); }, () => {});
   db.doc("etat/collecte").onSnapshot(s => { etatCollecte = s.exists ? s.data() : null; rendreSources(); verifierRetard(); }, () => {});
-  db.doc("config/themes").onSnapshot(s => { configThemes = s.exists ? s.data() : null; rendreThemesConfig(); }, () => {});
+  db.doc("config/themes").onSnapshot(s => { configThemes = s.exists ? s.data() : null; rendreThemesConfig(); if (edition) chargerDossiers(edition); }, () => {});
   if (proprio) {
     db.collection("consignes").onSnapshot(s => { consignes = enCollection(s); rendreConsignes(); }, () => {});
     db.doc("config/mode").onSnapshot(s => { const l = s.exists && !!s.data().leger; $("#modeLeger").checked = l; $("#modeRedacteur").value = (s.exists && s.data().redacteur) || "sonnet"; $("#modeEtat").textContent = (l ? "· léger" : "") + (s.exists && s.data().redacteur === "opus" ? " · rédaction Opus" : ""); }, () => {});
