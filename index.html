@@ -71,16 +71,16 @@ h1, h2, h3 { font-family: var(--titre); text-wrap: balance; margin: 0 }
 
 /* En-tête */
 .mast { background: var(--papier); border-bottom: 1px solid var(--trait) }
-.mast .cadre { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 18px 12px }
+.mast .cadre { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 24px; padding-block: 8px 6px }
 .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; flex: 1 1 520px; max-width: 820px }
-.logo-bandeau { display: block; width: 100%; height: auto; max-width: 100%; border-radius: 10px }
+.logo-bandeau { display: block; width: auto; height: 76px; max-width: 100%; object-fit: contain; border-radius: 8px }
 .logo-rond, .logo-texte { display: none }
 .logo-texte { font: italic 600 34px/1 var(--titre); letter-spacing: -.02em; color: var(--encre) }
 .logo-texte span { color: var(--accent) }
 @media (max-width: 640px) {
   .logo { flex: 0 1 auto }
   .logo-bandeau { display: none }
-  .logo-rond { display: block; width: 58px; height: 58px; flex: none }
+  .logo-rond { display: block; width: 44px; height: 44px; flex: none }
   .logo-texte { display: block }
   .mast-info { text-align: left }
 }
@@ -485,30 +485,61 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 .une a { color: inherit; text-decoration: none }
 .une a:hover h2, .une a:hover h3, .une a:hover li > a > span:not(.kicker):not(.etat), .une-th:hover li { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px }
 .une .suite { display: block; font: 600 13px var(--ui); color: var(--accent); margin-top: 8px }
-.une-tete { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; border-bottom: 1px solid var(--encre); padding: 4px 0 10px }
-.une-date { text-align: center; font: 600 15px var(--ui); text-transform: capitalize } .une-date small { display: block; font-weight: 400; color: var(--gris); text-transform: none; font-size: 12.5px }
-.oreille { display: flex; align-items: center; gap: 8px; font: 13px/1.3 var(--ui); border: 1px solid var(--trait); border-radius: 8px; padding: 6px 10px; justify-self: start; background: var(--papier) }
-.oreille.droite { justify-self: end; text-align: right } .oreille b { display: block; font-size: 17px } .oreille small { display: block; color: var(--gris) }
-.oreille-ico svg { width: 30px; height: 30px }
-.une-lead { display: block; padding: 18px 0 16px; border-bottom: 3px double var(--encre) }
-.une-lead h2 { font: 700 clamp(28px, 4.6vw, 46px)/1.08 var(--titre); margin: 0 0 10px; letter-spacing: -.01em }
-.une-lead p { font-size: 19px; margin: 0; max-width: 62ch }
-.une-cols { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 0 26px; padding: 14px 0; border-bottom: 1px solid var(--trait) }
-.une-cols > :only-child { grid-column: 1 / -1 }
-.une-rub { font: 800 13px var(--ui); letter-spacing: .1em; text-transform: uppercase; border-top: 2px solid var(--encre); padding-top: 6px; margin-bottom: 8px }
-.une-rub.large { margin-top: 18px }
-.une-ess ol { list-style: none; margin: 0; padding: 0; counter-reset: p }
-.une-ess li { counter-increment: p; border-bottom: 1px dotted var(--trait) } .une-ess li:last-child { border-bottom: 0 }
-.une-ess li > a { display: grid; grid-template-columns: 26px 1fr; gap: 0 8px; padding: 9px 0; font-size: 17px; line-height: 1.4 }
-.une-ess li > a::before { content: counter(p); font: 700 20px var(--titre); color: var(--gris); grid-row: span 3 }
-.une-ess .kicker { margin: 0 } .une-ess .etat, .une-lead .etat { justify-self: start; margin-top: 4px }
-.une-bouge { border-left: 1px solid var(--trait); padding-left: 18px }
-.une-bouge > a { display: block; padding: 8px 0; border-bottom: 1px dotted var(--trait); font-size: 15px } .une-bouge > a:last-child { border-bottom: 0 }
-.une-bouge b { display: block; font: 600 16px/1.3 var(--titre); margin: 4px 0 2px } .une-bouge span:not(.etat) { color: var(--gris) }
-.une-themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px }
-.une-th { display: flex; flex-direction: column; border-top: 4px solid var(--c); background: var(--papier); border-radius: 0 0 8px 8px; padding: 10px 14px 12px; border-left: 1px solid var(--trait); border-right: 1px solid var(--trait); border-bottom: 1px solid var(--trait) }
-.une-th .kicker { color: var(--c) } .une-th ul { margin: 0; padding-left: 18px; font: 16px/1.35 var(--titre) } .une-th li + li { margin-top: 5px } .une-th p { margin: 0; font-size: 14px }
-.une-th .suite { margin-top: auto; padding-top: 8px }
+.une-pastilles { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; white-space: nowrap; gap: 6px 10px; align-items: center; font: 13px/1.3 var(--ui); color: var(--gris); padding: 2px 0 10px; border-bottom: 1px solid var(--encre) }
+.une-pastilles > * { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--trait); border-radius: 999px; padding: 4px 11px; background: var(--papier) }
+.une-pastilles svg { width: 20px; height: 20px } .une-pastilles b { color: var(--encre) }
+.une-haut { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 28px; padding: 14px 0 6px; border-bottom: 3px double var(--encre) }
+.une-lead { display: block; padding-bottom: 12px }
+.une-lead h2 { font: 700 clamp(28px, 4.2vw, 50px)/1.06 var(--titre); margin: 2px 0 10px; letter-spacing: -.012em; text-wrap: balance }
+.une-lead p { font-size: 18.5px; line-height: 1.45; margin: 0; max-width: 64ch }
+.une-sec { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 22px; border-top: 1px solid var(--trait) }
+.une-sec > a { display: block; padding: 12px 0; border-bottom: 1px solid var(--trait) }
+.une-sec h3 { font: 700 23px/1.15 var(--titre); margin: 2px 0 6px; text-wrap: balance } .une-sec p { margin: 0; font-size: 15.5px; line-height: 1.45; color: var(--gris) }
+.une-ancre { padding: 4px 0 14px; align-self: start }
+.une-chiffre { display: flex; flex-direction: column; gap: 6px; min-height: 220px; justify-content: center; background: color-mix(in srgb, var(--c) 14%, var(--papier)); border-top: 4px solid var(--c); border-radius: 0 0 10px 10px; padding: 18px 20px }
+.une-chiffre b { font: 800 clamp(48px, 6vw, 80px)/1 var(--titre); color: var(--c) } .une-chiffre > span:not(.kicker) { font: 600 18px/1.3 var(--titre) } .une-chiffre small { font: 12px var(--ui); color: var(--gris) }
+.une-breves { list-style: none; margin: 0; padding: 4px 0 10px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 22px; counter-reset: b }
+.une-breves li { border-bottom: 1px dotted var(--trait) } .une-breves a { display: block; padding: 9px 0; font: 600 17px/1.3 var(--titre) }
+.une-breves .kicker { display: block; margin: 0 0 2px; font-size: 11px }
+.une-bloc { padding: 4px 0 6px }
+.une-rub { display: flex; justify-content: space-between; align-items: baseline; font: 800 13px var(--ui); letter-spacing: .1em; text-transform: uppercase; border-top: 2px solid var(--encre); padding-top: 6px; margin: 18px 0 8px }
+.une-rub-lien { font: 600 13px var(--ui); letter-spacing: 0; text-transform: none; color: var(--accent) }
+.une-bouge { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 22px }
+.une-bouge > a { display: block; padding: 8px 0; border-bottom: 1px dotted var(--trait); font-size: 15px }
+.une-bouge b { display: block; font: 600 17px/1.3 var(--titre); margin: 4px 0 2px } .une-bouge span:not(.etat) { color: var(--gris) }
+.une-duel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px }
+.une-duel > :only-child { grid-column: 1 / -1 }
+.une-regard { display: flex; flex-direction: column; background: var(--papier); border: 1px solid var(--trait); border-top: 4px solid var(--c, var(--accent)); border-radius: 0 0 10px 10px; padding: 14px 16px }
+.une-regard h3 { font: 700 22px/1.2 var(--titre); margin: 2px 0 8px } .une-regard p { margin: 0; font-size: 16px; line-height: 1.5 } .une-regard .suite { margin-top: auto; padding-top: 10px }
+.une-regard.ia { background: var(--encre); color: var(--papier); border-color: var(--encre) } .une-regard.ia .kicker, .une-regard.ia .suite { color: color-mix(in srgb, var(--papier) 75%, var(--accent)) }
+.une-trio { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; margin-top: 18px }
+.une-tuile { display: flex; flex-direction: column; background: var(--papier); border: 1px solid var(--trait); border-top: 4px solid var(--c, var(--encre)); border-radius: 0 0 10px 10px; padding: 12px 15px }
+.une-tuile h3 { font: 700 20px/1.2 var(--titre); margin: 2px 0 6px } .une-tuile p { margin: 0; font-size: 15.5px; line-height: 1.45 } .une-tuile .suite { margin-top: auto; padding-top: 8px }
+.une-tuile .vign { display: block; aspect-ratio: 16/9; background: var(--trait); border-radius: 6px; overflow: hidden; margin: 4px 0 8px } .une-tuile .vign img { width: 100%; height: 100%; object-fit: cover }
+.une-tuile.citation q { display: block; font: italic 19px/1.4 var(--titre); margin: 4px 0 } .une-tuile.mot h3 { font-style: italic; font-size: 26px }
+.une-lignes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 22px }
+.une-th-ligne { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 10px; min-height: 56px; padding: 8px 0 8px 12px; border-left: 4px solid var(--c); border-bottom: 1px dotted var(--trait) }
+.une-th-ligne .kicker { grid-column: 1; margin: 0; font-size: 11px } .une-th-ligne .txt { grid-column: 1; font: 600 17px/1.3 var(--titre) } .une-th-ligne .fl { grid-column: 2; grid-row: 1 / span 2; color: var(--accent); font-size: 20px }
+.une-rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px }
+.une-rail .une-vid { display: flex; grid-template-columns: none; flex-direction: column; gap: 4px; scroll-snap-align: start; font: 15px/1.3 var(--titre) }
+.une-rail .vign { display: block; width: 100%; aspect-ratio: 16/9; background: var(--trait); border-radius: 6px; overflow: hidden } .une-rail .vign img { width: 100%; height: 100%; object-fit: cover }
+.une-rail small { font: 12px var(--ui); color: var(--gris) }
+.coulisses-repli > summary { cursor: pointer; list-style: none } .coulisses-repli > summary::after { content: "▾ ouvrir"; font: 600 13px var(--ui); color: var(--accent); margin-left: auto } .coulisses-repli[open] > summary::after { content: "▴ fermer" }
+.une-fin { text-align: center; margin: 22px 0 4px; padding-top: 12px; border-top: 3px double var(--encre) }
+.une .etat { justify-self: start; margin-top: 4px }
+@media (min-width: 640px) {
+  .une-sec, .une-bouge, .une-lignes { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .une-breves { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .une-duel { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .une-trio.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)) } .une-trio.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+}
+@media (min-width: 1000px) {
+  .une-haut.avec-ancre { grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr) }
+  .une-ancre { padding-top: 16px }
+  .une-lignes { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+}
+@media (min-width: 1000px) and (pointer: fine) { .une-rail { grid-auto-flow: row; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: visible } }
+@media (max-width: 639px) { .une-lead p { font-size: 17px } .une-sec h3 { font-size: 21px } }
 .une-cartes { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; align-items: start }
 .une-carte { display: block; background: var(--papier); border: 1px solid var(--trait); border-radius: 8px; padding: 12px 14px; border-top: 3px solid var(--c, var(--encre)) }
 .une-carte h3 { font: 600 19px/1.25 var(--titre); margin: 0 0 6px } .une-carte p { margin: 0; font-size: 15.5px; line-height: 1.45 }
@@ -527,12 +558,6 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 #spectre { margin-bottom: 18px }
 #titreJour { display: none } /* le titre du jour est la manchette de la Une */
 .une-themes { align-items: start }
-.une-date span { font: 700 20px var(--titre); text-transform: none }
-@media (max-width: 760px) {
-  .une-tete { grid-template-columns: 1fr 1fr } .une-date { grid-column: 1 / -1; order: -1 }
-  .une-cols { grid-template-columns: 1fr } .une-bouge { border-left: 0; padding-left: 0; margin-top: 10px }
-  .une-lead p { font-size: 17px }
-}
 /* Onglet YO1tv */
 .src-pub { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px }
 .src-pub-l { border: 1px solid var(--trait); border-radius: 10px; padding: 10px 12px; background: var(--papier) }
@@ -710,15 +735,15 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
     </div>
   </div></section>
 
-  <section id="coulisses"><div class="cadre">
+  <section id="coulisses"><div class="cadre"><details class="coulisses-repli">
+    <summary class="tete-sec"><h2>Coulisses</h2><span class="etiq">Équilibre des sources, collecte, note de la rédaction</span></summary>
     <div class="spectre" id="spectre" hidden>
       <div class="etiq">D'où viennent les liens de cette édition (bords, puis nature des sources)</div>
       <div id="spectreBarre" style="display:grid;gap:5px;margin:8px 0 6px"></div>
       <div class="spectre-leg" id="spectreLeg"></div>
     </div>
-    <div class="tete-sec"><h2>Coulisses</h2><span class="etiq">Équilibre des sources, collecte, note de la rédaction</span></div>
     <div class="complements" id="coulissesGrille"></div>
-  </div></section>
+  </details></div></section>
 </div>
 
 <!-- ==== Vue Thèmes ==== -->
@@ -921,7 +946,6 @@ async function chargerVignettes(date) {
   } catch {}
 }
 const titreFr = x => x.tf ? `<span title="${esc(x.t || x.titre)}">${esc(x.tf)}</span>` : esc(x.t || x.titre);
-const dureeDate = v => [v.duree, v.date ? new Date(v.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short" }) : ""].filter(Boolean).join(" · ");
 const marquerLu = u => { if (!u || lus.has(u)) return; lus.add(u); stocke.ecrire("vigie-lus", [...lus].slice(-4000)); };
 function toast(t) { const el = $("#toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => el.hidden = true, 2800); }
 
@@ -1006,7 +1030,7 @@ function lune(iso) {
   return { nom: noms.find(n => age < n[0])[1], illum: Math.round((1 - Math.cos(2 * Math.PI * age / syn)) / 2 * 100) };
 }
 const numJour = iso => { const d = new Date(iso + "T12:00:00"); return Math.round((d - new Date(d.getFullYear(), 0, 1, 12)) / 864e5) + 1; };
-const duree = s => `${Math.floor(s / 3600)} h ${String(Math.round(s % 3600 / 60)).padStart(2, "0")}`;
+const duree = s => { const m = Math.round(s / 60); return `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`; };
 const aujourdhui = () => new Intl.DateTimeFormat("fr-CA", { timeZone: "Europe/Paris" }).format(new Date());
 const heureParis = () => Number(new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", hourCycle: "h23" }).format(new Date()));
 
@@ -1092,59 +1116,97 @@ function dejaDit(texte, vus, seuil = 3) { // même information déjà présente 
 const etiquetteFil = f => f.etat === "nouveau" && (!f.jour || f.jour <= 1) ? ["nouveau", "Nouveau"] : f.etat === "clos" ? ["clos", "Clos"] : f.etat === "evolue" ? ["evolue", f.jour > 1 ? `J+${f.jour - 1} · évolue` : "A évolué"] : ["jour", f.jour > 1 ? `J+${f.jour - 1}` : "Stable"];
 const extrait = (s, n = 190) => { const t = String(s || "").replace(/\s+/g, " ").trim(); return t.length > n ? t.slice(0, t.lastIndexOf(" ", n)) + "…" : t; };
 function rendreEssentiel(e) {
-  const themes = e.themes || [], thNom = id => themes.find(t => t.id === id)?.titre || "";
+  /* La Une (débat du 4 novembre 2026 : direction artistique, rédaction en chef, UX, lecteur).
+     Trois niveaux (manchette, deux secondaires, brèves), titres courts, un registre des sujets déjà placés (rien deux fois),
+     un ancrage visuel à droite de la manchette, « Deux regards », trois tuiles (sourire, chez nous, case du jour),
+     « Dans L'édition » en lignes, « À voir » en rail, agenda ; le reste (éphéméride, météo, coulisses) en pied. */
+  const themes = e.themes || [], thNom = id => themes.find(t => t.id === id)?.titre || THEMES[id] || "";
   const cible = x => x.th ? `#${themes.find(t => t.id === x.th)?.sujets?.[x.sj || 0] ? `sj-${x.th}-${x.sj || 0}` : `th-${x.th}`}` : "#themes";
   const pts = (e.essentiel || []).map(p => typeof p === "string" ? { t: p } : p);
   const vus = [], couverts = new Set();
   const noter = (...t) => vus.push(motsCles(t.join(" ")));
   pts.forEach(p => { noter(p.t); if (p.th) couverts.add(`${p.th}-${p.sj || 0}`); });
-  // fils : rattachés au point de l'essentiel qui en parle déjà, sinon rubrique « Ça bouge »
+  const court = p => p.titre || (p.t.match(/\*\*(.+?)\*\*/)?.[1]) || extrait(p.t.replace(/\*\*/g, ""), 80);
+  const sansGras = t => md(String(t || "").replace(/\*\*/g, ""));
+  const kicker = id => id ? `<span class="kicker" style="--c:${couleurTh(id)}">${esc(thNom(id))}</span>` : "";
+  // fils suivis : rattachés au point qui en parle, sinon « Ça bouge » (seulement nouveau et évolue)
   const badges = new Map(), bouge = [];
   for (const f of e.fils || []) {
-    const m = motsCles(f.titre + " " + f.evolution);
     const k = pts.findIndex(p => (!f.th || !p.th || p.th === f.th) && dejaDit(f.titre + " " + f.evolution, [motsCles(p.t)], 2));
-    if (k >= 0 && !badges.has(k)) badges.set(k, f); else if (!dejaDit(f.titre + " " + f.evolution, vus)) { bouge.push(f); vus.push(m); }
+    if (k >= 0 && !badges.has(k)) badges.set(k, f);
+    else if (["nouveau", "evolue"].includes(f.etat) && !dejaDit(f.titre + " " + f.evolution, vus)) { bouge.push(f); noter(f.titre, f.evolution); }
   }
   const badge = f => { const [c, t] = etiquetteFil(f); return `<span class="etat ${c}" title="Fil suivi : ${esc(f.titre)}">${esc(t)}</span>`; };
+  // pastilles (remplacent les « oreilles ») : météo, temps de lecture, compte à rebours
   const meteo = e.meteo?.jours?.[0];
   const t1 = "2027-04-18", jP = Math.ceil((new Date(t1 + "T12:00") - new Date()) / 864e5);
-  const oreilles = `<div class="une-tete">
-    ${meteo ? `<a class="oreille" href="#meteo"><span class="oreille-ico">${meteoIco(meteo.code)}</span><span><b>${Math.round(meteo.tmin)}° / ${Math.round(meteo.tmax)}°</b>${esc(meteoTexte(meteo.code))}<small>${esc(e.meteo.lieu || "Saint-Paul-la-Roche")}</small></span></a>` : "<span></span>"}
-    <div class="une-date"><span>La Une</span><small>${e.lecture_min ? `toute l'édition ≈ ${e.lecture_min} min · ` : ""}${esc(dateLongue(e.date))}</small></div>
-    ${jP > 0 ? `<a class="oreille droite" href="#presidentielle"><span><b class="tricolore">J−${jP}</b>avant le premier tour<small>Présidentielle 2027</small></span></a>` : "<span></span>"}
+  const pastilles = `<div class="une-pastilles">
+    ${meteo ? `<a href="#meteo" title="Météo heure par heure">${meteoIco(meteo.code)}<b>${Math.round(meteo.tmin)}° / ${Math.round(meteo.tmax)}°</b> ${esc(meteoTexte(meteo.code))}</a>` : ""}
+    <span>Une : 1 min${e.lecture_min ? ` · édition : ${e.lecture_min} min` : ""}</span>
+    ${jP > 0 ? `<a href="#presidentielle"><b class="tricolore">J−${jP}</b> présidentielle</a>` : ""}
   </div>`;
-  const [lead, ...reste] = pts;
-  const leadHtml = lead ? `<a class="une-lead" href="${esc(cible(lead))}">${lead.th ? `<span class="kicker" style="--c:${couleurTh(lead.th)}">${esc(thNom(lead.th))}</span>` : ""}<h2>${esc(e.titre || "")}</h2><p>${md(lead.t)}</p>${badges.has(0) ? badge(badges.get(0)) : ""}<span class="suite">Lire →</span></a>` : "";
-  const essHtml = reste.length ? `<div class="une-ess"><div class="une-rub">L'essentiel</div><ol>${reste.map((p, i) => `<li><a href="${esc(cible(p))}">${p.th ? `<span class="kicker" style="--c:${couleurTh(p.th)}">${esc(thNom(p.th))}</span>` : ""}<span>${md(p.t)}</span>${badges.has(i + 1) ? badge(badges.get(i + 1)) : ""}</a></li>`).join("")}</ol></div>` : "";
-  const bougeHtml = bouge.length ? `<div class="une-bouge"><div class="une-rub">Ça bouge</div>${bouge.map(f => `<a href="${f.th ? "#th-" + esc(f.th) : "#themes"}">${badge(f)}<b>${esc(f.titre)}</b><span>${md(extrait(f.evolution, 160))}</span></a>`).join("")}</div>` : "";
-  // thèmes : seulement les sujets qui ne sont pas déjà dans l'essentiel
-  const thCartes = themes.map(t => {
+  // ancrage visuel : sur le miroir, le dessin du jour ; sinon le chiffre du jour (champ chiffre_une, ou premier chiffre d'un thème)
+  const ch = e.chiffre_une?.v ? e.chiffre_une : (() => { for (const t of themes) for (const c of t.chiffres || []) if (c.v) return { ...c, th: t.id }; return null; })();
+  const chiffreHtml = ch ? `<a class="une-chiffre" href="${ch.th ? "#th-" + esc(ch.th) : "#themes"}" style="--c:${ch.th ? couleurTh(ch.th) : "var(--accent)"}"><span class="kicker">Le chiffre du jour</span><b>${esc(ch.v)}</b><span>${esc(ch.l)}</span>${ch.src ? `<small>${esc(ch.src)}</small>` : ""}</a>` : "";
+  const dessin = dessinHtml(e);
+  const ancre = window.VIGIE_MIROIR && dessin ? dessin : (chiffreHtml || dessin);
+  const dessinAilleurs = dessin && ancre !== dessin ? dessin : "";
+  const chiffreAilleurs = chiffreHtml && ancre !== chiffreHtml ? chiffreHtml : "";
+  // 1. manchette, secondaires, brèves
+  const [lead, ...reste] = pts, sec = reste.slice(0, 2), breves = reste.slice(2);
+  const leadHtml = lead ? `<a class="une-lead" href="${esc(cible(lead))}">${kicker(lead.th)}<h2>${esc(lead.titre || e.titre || court(lead))}</h2><p>${sansGras(lead.t)}</p>${badges.has(0) ? badge(badges.get(0)) : ""}</a>` : "";
+  const secHtml = sec.length ? `<div class="une-sec">${sec.map((p, i) => `<a href="${esc(cible(p))}">${kicker(p.th)}<h3>${esc(court(p))}</h3><p>${sansGras(p.t)}</p>${badges.has(i + 1) ? badge(badges.get(i + 1)) : ""}</a>`).join("")}</div>` : "";
+  const brevesHtml = breves.length ? `<ol class="une-breves">${breves.map((p, i) => `<li><a href="${esc(cible(p))}">${kicker(p.th)}<span>${esc(court(p))}</span>${badges.has(i + 3) ? badge(badges.get(i + 3)) : ""}</a></li>`).join("")}</ol>` : "";
+  const haut = `<div class="une-haut ${ancre ? "avec-ancre" : ""}"><div class="une-principal">${leadHtml}${secHtml}${brevesHtml}</div>${ancre ? `<div class="une-ancre">${ancre}</div>` : ""}</div>`;
+  const bougeHtml = bouge.length ? `<div class="une-bloc"><div class="une-rub">Ça bouge</div><div class="une-bouge">${bouge.map(f => `<a href="${f.th ? "#th-" + esc(f.th) : "#themes"}">${badge(f)}<b>${esc(f.titre)}</b><span>${md(extrait(f.evolution, 140))}</span></a>`).join("")}</div></div>` : "";
+  // 2. deux regards : l'IAnalyse (le seul bloc inversé) et le camp d'en face
+  const ia = e.ianalyse, cf = e.camp_d_en_face;
+  const iaHtml = ia?.titre ? `<a class="une-regard ia" href="#ianalyse"><span class="kicker">L'IAnalyse${ia.theme ? " · " + esc(thNom(ia.theme) || ia.theme) : ""}</span><h3>${esc(ia.titre)}</h3><p>${esc(ia.accroche || "")}</p><span class="suite">L'avis d'une IA, avec son objection →</span></a>` : "";
+  if (ia?.titre) noter(ia.titre, ia.accroche);
+  const cfHtml = cf?.argument ? `<a class="une-regard" href="${esc(lienExterne(cf.u, cf.lg, cf.b))}" target="_blank" rel="noopener" style="--c:var(${{ gauche: "--g1", droite: "--d1" }[cf.camp] || "--autre"})"><span class="kicker">Le camp d'en face${cf.camp ? " · " + esc(cf.camp) : ""}</span><h3>${esc(cf.teasing || cf.sujet)}</h3><p>${esc(extrait(cf.argument, 220))}</p><span class="suite">${esc(cf.auteur || cf.s || "")} · lire l'original ↗</span></a>` : "";
+  if (cfHtml) noter(cf.sujet);
+  const regards = iaHtml || cfHtml ? `<div class="une-bloc"><div class="une-rub">Deux regards</div><div class="une-duel">${iaHtml}${cfHtml}</div></div>` : "";
+  // 3. trois tuiles : le sourire du matin, chez nous, la case du jour
+  const tuiles = [];
+  const hum = (e.programme?.humour || [])[0];
+  if (e.pepite?.titre) tuiles.push(`<a class="une-tuile" href="${esc(lienSur(e.pepite.u))}" target="_blank" rel="noopener"><span class="kicker">Le sourire du matin</span><h3>${esc(e.pepite.titre)}</h3><p>${esc(e.pepite.texte || "")}</p><span class="suite">Lire ↗</span></a>`);
+  else if (hum?.id) tuiles.push(`<a class="une-tuile" href="https://www.youtube.com/watch?v=${esc(hum.id)}" target="_blank" rel="noopener"><span class="kicker">Le sourire du matin</span><span class="vign" data-vid="${esc(hum.id)}">${vignettesVid[hum.id] ? `<img src="${vignettesVid[hum.id]}" alt="">` : ""}</span><h3>${esc(hum.titre)}</h3><small class="muet ui">${esc(hum.chaine || "")}</small></a>`);
+  const loc = themes.find(t => t.id === "local");
+  if (loc) {
+    const k = (loc.sujets || []).findIndex((sj, i) => !couverts.has(`local-${i}`));
+    const sj = loc.sujets?.[k];
+    if (sj) { tuiles.push(`<a class="une-tuile" href="#sj-local-${k}" style="--c:${couleurTh("local")}"><span class="kicker">Chez nous</span><h3>${esc(sj.titre)}</h3><p>${esc(extrait((sj.texte || "").split("\n")[0], 180))}</p><span class="suite">${(loc.sujets || []).length} sujet${(loc.sujets || []).length > 1 ? "s" : ""} en Dordogne et alentours →</span></a>`); couverts.add(`local-${k}`); noter(sj.titre); }
+  }
+  const dit = themes.flatMap(t => (t.ils_lont_dit || []).map(d => ({ ...d, th: t.id }))).find(d => d.extrait && d.extrait.length <= 240 && !dejaDit(d.extrait, vus, 4));
+  const mot = e.mot_du_jour;
+  if (mot?.mot) tuiles.push(`<div class="une-tuile mot"><span class="kicker">Le mot du jour</span><h3>${esc(mot.mot)}</h3><p>${md(mot.etymologie || "")}</p>${mot.actu ? `<small class="muet ui">${md(mot.actu)}</small>` : ""}</div>`);
+  else if (dit) tuiles.push(`<a class="une-tuile citation" href="#th-${esc(dit.th)}"><span class="kicker">Ils l'ont dit</span><q>${esc(dit.extrait)}</q><span class="suite"><b>${esc(dit.qui)}</b>${dit.qualite ? ", " + esc(dit.qualite) : ""} · propos publié, non vérifié</span></a>`);
+  else if (chiffreAilleurs) tuiles.push(chiffreAilleurs);
+  else if ((e.verifications || []).length) { const v = e.verifications[0]; tuiles.push(`<a class="une-tuile" href="${esc(lienSur(v.u))}" target="_blank" rel="noopener"><span class="kicker">Vérifié</span><span class="verdict ${esc((v.verdict || "").normalize("NFD").replace(/[̀-ͯ]/g, ""))}">${esc(v.verdict)}</span><p>${esc(v.affirmation)}</p></a>`); }
+  const trio = tuiles.length ? `<div class="une-trio n${tuiles.length}">${tuiles.join("")}</div>` : "";
+  // 4. dans L'édition : une ligne par thème qui a encore quelque chose à dire
+  const lignes = themes.map(t => {
     const autres = (t.sujets || []).map((sj, k) => ({ sj, k })).filter(({ sj, k }) => !couverts.has(`${t.id}-${k}`) && !dejaDit(sj.titre + " " + (sj.texte || "").slice(0, 200), vus));
+    if (!autres.length) return "";
     autres.forEach(({ sj }) => noter(sj.titre));
-    return `<a class="une-th" href="#th-${esc(t.id)}" style="--c:${couleurTh(t.id)}"><span class="kicker">${esc(t.titre)}</span>${autres.length ? `<ul>${autres.slice(0, 3).map(({ sj }) => `<li>${esc(sj.titre)}</li>`).join("")}</ul>` : `<p class="muet">${t.calme ? "Journée calme." : "L'essentiel est en tête de Une."}</p>`}<span class="suite">${(t.sujets || []).length} sujet${(t.sujets || []).length > 1 ? "s" : ""} →</span></a>`;
-  }).join("");
-  // cartes : chaque rubrique a sa destination
-  const cartes = [];
-  const ia = e.ianalyse;
-  if (ia?.titre) { cartes.push(`<a class="une-carte ia" href="#ianalyse"><span class="kicker">IAnalyse${ia.theme ? " · " + esc(thNom(ia.theme) || ia.theme) : ""}</span><h3>${esc(ia.titre)}</h3><p>${esc(ia.accroche || "")}</p><span class="suite">Lire l'analyse →</span></a>`); noter(ia.titre, ia.accroche); }
-  const cf = e.camp_d_en_face;
-  if (cf?.argument && !dejaDit(cf.sujet + " " + cf.argument, vus, 4)) { cartes.push(`<a class="une-carte" href="${esc(lienExterne(cf.u, cf.lg, cf.b))}" target="_blank" rel="noopener" style="--c:var(${{ gauche: "--g1", droite: "--d1" }[cf.camp] || "--autre"})"><span class="kicker">Le camp d'en face${cf.camp ? " · " + esc(cf.camp) : ""}</span><h3>${esc(cf.sujet)}</h3><p>${esc(extrait(cf.argument))}</p><span class="suite">${esc(cf.auteur || cf.s || "")} · lire l'original ↗</span></a>`); noter(cf.sujet); }
-  if (e.pepite?.titre) cartes.push(`<a class="une-carte" href="${esc(lienSur(e.pepite.u))}" target="_blank" rel="noopener"><span class="kicker">La pépite</span><h3>${esc(e.pepite.titre)}</h3><p>${esc(extrait(e.pepite.texte))}</p><span class="suite">Lire ↗</span></a>`);
-  const dit = themes.flatMap(t => (t.ils_lont_dit || []).map(d => ({ ...d, th: t.id }))).find(d => d.extrait && !dejaDit(d.extrait, vus, 4));
-  if (dit) cartes.push(`<a class="une-carte citation" href="#th-${esc(dit.th)}"><span class="kicker">Ils l'ont dit</span><q>${esc(extrait(dit.extrait, 220))}</q><span class="suite"><b>${esc(dit.qui)}</b>${dit.qualite ? ", " + esc(dit.qualite) : ""} · propos publié, non vérifié</span></a>`);
-  const vids = ["actu", "decouverte", "humour"].map(k => [k, (e.programme?.[k] || [])[0]]).filter(([, v]) => v?.id);
-  if (vids.length) cartes.push(`<div class="une-carte videos"><span class="kicker">À voir</span>${vids.map(([k, v]) => `<a class="une-vid" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener"><span class="vign" data-vid="${esc(v.id)}">${vignettesVid[v.id] ? `<img src="${vignettesVid[v.id]}" alt="">` : ""}</span><span><small>${esc(CAT_VID[k] || k)} · ${esc(v.chaine || "")}</small>${esc(v.titre)}</span></a>`).join("")}<a class="suite" href="#videos">Toutes les vidéos →</a></div>`);
-  const dessin = dessinHtml(e); if (dessin) cartes.unshift(dessin);
-  if (e.caricature?.titre) cartes.push(`<a class="une-carte caricature" href="${esc(lienSur(e.caricature.page))}" target="_blank" rel="noopener"><span class="kicker">La caricature d'antan</span><img id="caricImg" alt="${esc(e.caricature.titre)}" hidden><h3>${esc(e.caricature.titre)}</h3><p>${esc(extrait(e.caricature.contexte, 160))}</p></a>`);
-  if ((e.traits || []).length) cartes.push(`<div class="une-carte"><span class="kicker">Le trait du jour</span>${e.traits.map(t => `<a class="une-ligne" href="${esc(lienSur(t.u))}" target="_blank" rel="noopener"><b>${esc(t.auteur)}</b>${t.journal ? ` · ${esc(t.journal)}` : ""}<br>${md(extrait(t.description, 140))}</a>`).join("")}</div>`);
-  if ((e.chiffres || []).length) cartes.push(`<div class="une-carte"><span class="kicker">Chiffres du jour</span><div class="chiffres-th">${e.chiffres.map(c => `<div class="chiffre"><b>${esc(c.v)}</b><span>${esc(c.l)}</span></div>`).join("")}</div></div>`);
+    const { sj, k } = autres[0];
+    return `<a class="une-th-ligne" href="#sj-${esc(t.id)}-${k}" style="--c:${couleurTh(t.id)}"><span class="kicker">${esc(t.titre)}</span><span class="txt">${esc(t.accroche || sj.titre)}${autres.length > 1 ? ` <small class="muet">+ ${autres.length - 1} autre${autres.length > 2 ? "s" : ""}</small>` : ""}</span><span class="fl" aria-hidden="true">→</span></a>`;
+  }).filter(Boolean);
+  const editionHtml = lignes.length ? `<div class="une-bloc"><div class="une-rub">Dans L'édition</div><div class="une-lignes">${lignes.join("")}</div></div>` : "";
+  // 5. à voir : un rail de vidéos du programme (le seul défilement horizontal)
+  const vids = ["actu", "analyse", "decouverte", "culture", "humour"].map(k => [k, (e.programme?.[k] || []).find(v => v?.id && v.id !== hum?.id)]).filter(([, v]) => v);
+  const voirHtml = vids.length ? `<div class="une-bloc"><div class="une-rub">À voir <a class="une-rub-lien" href="#videos">toutes les vidéos →</a></div><div class="une-rail">${vids.map(([k, v]) => `<a class="une-vid" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener"><span class="vign" data-vid="${esc(v.id)}">${vignettesVid[v.id] ? `<img src="${vignettesVid[v.id]}" alt="">` : ""}</span><small>${esc(CAT_VID[k] || k)} · ${esc(v.chaine || "")}</small><span>${esc(v.titre)}</span></a>`).join("")}</div></div>` : "";
+  // 6. le reste : dessin (dans l'artefact), caricature du dimanche, traits, agenda
+  const autres = [];
+  if (dessinAilleurs) autres.push(dessinAilleurs);
+  if (e.caricature?.titre) autres.push(`<a class="une-carte caricature" href="${esc(lienSur(e.caricature.page))}" target="_blank" rel="noopener"><span class="kicker">La caricature d'antan</span><img id="caricImg" alt="${esc(e.caricature.titre)}" hidden><h3>${esc(e.caricature.titre)}</h3><p>${esc(extrait(e.caricature.contexte, 160))}</p></a>`);
+  if ((e.traits || []).length) autres.push(`<div class="une-carte"><span class="kicker">Le trait du jour</span>${e.traits.map(t => `<a class="une-ligne" href="${esc(lienSur(t.u))}" target="_blank" rel="noopener"><b>${esc(t.auteur)}</b>${t.journal ? ` · ${esc(t.journal)}` : ""}<br>${md(extrait(t.description, 140))}</a>`).join("")}</div>`);
   const agenda = (e.agenda || []).filter(a => !dejaDit(a.quoi || a.titre, vus, 3));
-  if (agenda.length) cartes.push(`<div class="une-carte"><span class="kicker">Agenda</span><ul class="liste-simple">${agenda.map(a => `<li><b>${esc(a.quand || (a.date ? new Date(a.date + "T12:00").toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" }) : ""))}</b>${md(a.quoi || a.titre || "")}</li>`).join("")}</ul></div>`);
-  if ((e.verifications || []).length) cartes.push(`<div class="une-carte"><span class="kicker">Vérifications</span>${e.verifications.map(v => `<a class="une-ligne" href="${esc(lienSur(v.u))}" target="_blank" rel="noopener"><span class="verdict ${esc((v.verdict || "").normalize("NFD").replace(/[̀-ͯ]/g, ""))}">${esc(v.verdict)}</span> ${esc(v.affirmation)}</a>`).join("")}</div>`);
-  if (e.temps_long?.titre && !ia) cartes.push(`<div class="une-carte"><span class="kicker">Le temps long</span><h3>${esc(e.temps_long.titre)}</h3><p>${esc(extrait(e.temps_long.texte))}</p></div>`);
-  $("#uneGrille").innerHTML = oreilles + leadHtml + `<div class="une-cols">${essHtml}${bougeHtml}</div>`
-    + (themes.length ? `<div class="une-rub large">Dans les thèmes</div><div class="une-themes">${thCartes}</div>` : "")
-    + (cartes.length ? `<div class="une-rub large">Et aussi</div><div class="une-cartes">${cartes.join("")}</div>` : "");
+  if (agenda.length) autres.push(`<div class="une-carte"><span class="kicker">Demain et après</span><ul class="liste-simple">${agenda.map(a => `<li><b>${esc(a.quand || (a.date ? new Date(a.date + "T12:00").toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" }) : ""))}</b>${md(a.quoi || a.titre || "")}</li>`).join("")}</ul></div>`);
+  if ((e.verifications || []).length > (tuiles.some(t => t.includes("Vérifié")) ? 1 : 0)) autres.push(`<div class="une-carte"><span class="kicker">Vérifications</span>${e.verifications.map(v => `<a class="une-ligne" href="${esc(lienSur(v.u))}" target="_blank" rel="noopener"><span class="verdict ${esc((v.verdict || "").normalize("NFD").replace(/[̀-ͯ]/g, ""))}">${esc(v.verdict)}</span> ${esc(v.affirmation)}</a>`).join("")}</div>`);
+  const autresHtml = autres.length ? `<div class="une-cartes">${autres.join("")}</div>` : "";
+  $("#uneGrille").innerHTML = pastilles + haut + bougeHtml + regards + trio + editionHtml + voirHtml + autresHtml
+    + `<p class="une-fin muet ui">Voilà pour la Une. <a href="#themes">Lire L'édition →</a></p>`;
   rendreSpectre(e);
   chargerIntegrationsBsky();
   rendreCaricature(e);
@@ -1543,7 +1605,7 @@ async function chargerVideos() {
   for (const j of vid.jours) if (j.date !== edition?.date) await chargerVignettes(j.date);
 }
 const secVid = d => String(d || "").split(":").reduce((s, x) => s * 60 + (+x || 0), 0);
-const dureeTotale = l => { const s = l.reduce((t, x) => t + secVid(x.du), 0), h = Math.floor(s / 3600), m = Math.round(s % 3600 / 60); return s ? (h ? `${h} h ${String(m).padStart(2, "0")}` : `${m} min`) : ""; };
+const dureeTotale = l => { const s = l.reduce((t, x) => t + secVid(x.du), 0), mn = Math.round(s / 60), h = Math.floor(mn / 60), m = mn % 60; return s ? (h ? `${h} h ${String(m).padStart(2, "0")}` : `${m} min`) : ""; };
 const urlVid = x => `https://www.youtube.com/watch?v=${encodeURIComponent(x.i)}`;
 function vidFiltre(l, onglet) {
   const q = vid.q.toLowerCase();
