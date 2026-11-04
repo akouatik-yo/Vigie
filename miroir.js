@@ -1,6 +1,7 @@
 /* Miroir de La Vigie sur GitHub Pages : remplace la base de l'artefact par des fichiers JSON statiques (data/),
    en lecture seule, vue « visiteur » (non propriétaire), sans fonctions IA (« Demander » absent).
    Même interface que la base de l'artefact : collection().where().orderBy().limit().get()/onSnapshot(), doc().get(). */
+window.VIGIE_MIROIR = true;  // la page sait qu'elle tourne sur le miroir : intégrations (dessin du jour) autorisées
 (function () {
   const cache = {};
   const lire = p => cache[p] ??= fetch("data/" + p, { cache: "no-cache" }).then(r => r.ok ? r.json() : null).catch(() => null);

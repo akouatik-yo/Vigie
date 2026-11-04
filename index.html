@@ -89,7 +89,7 @@ h1, h2, h3 { font-family: var(--titre); text-wrap: balance; margin: 0 }
 .nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--papier); border-bottom: 1px solid var(--trait) }
 .nav .cadre { display: flex; align-items: center; gap: 4px; padding-block: 7px }
 .nav .liens-vue { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none }
-.nav a.vue { font: 600 14px/1 var(--ui); text-decoration: none; padding: 10px 13px; border-radius: 999px; white-space: nowrap; color: var(--gris) }
+.nav a.vue { font: 600 14px/1.2 var(--ui); text-decoration: none; display: inline-flex; align-items: center; min-height: 38px; box-sizing: border-box; padding: 8px 13px; border-radius: 999px; white-space: nowrap; color: var(--gris) }
 .nav a.vue:hover { background: var(--accent-voile); color: var(--encre) }
 .nav a.vue[aria-current="page"] { background: var(--encre); color: var(--papier) }
 .nav .esp { flex: 1 }
@@ -336,7 +336,7 @@ details.autres-liens[open] summary::before { content: "– " }
 
 /* Vidéos */
 .onglets { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 16px }
-.onglet { font: 600 14px/1 var(--ui); border: 1px solid var(--trait); background: var(--papier); border-radius: 999px; padding: 11px 16px; cursor: pointer; color: var(--gris) }
+.onglet { font: 600 14px/1.2 var(--ui); display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--trait); background: var(--papier); border-radius: 999px; padding: 9px 16px; cursor: pointer; color: var(--gris) }
 .onglet[aria-selected="true"] { background: var(--encre); color: var(--papier); border-color: var(--encre) }
 .onglet .n { font-weight: 500; opacity: .7; margin-left: 4px }
 .prog-tete { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; font: 14px/1.45 var(--ui); color: var(--gris) }
@@ -476,7 +476,8 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]):not([data-ton="papier"]):not([data-ton="granit"]) { --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767; --s-autre: #6f736b; --tricolore: linear-gradient(90deg, #6f9cf0 0%, #9db8f0 30%, #f2f2ee 50%, #f39a9f 70%, #ef5b66 100%) } }
 :root[data-theme="dark"]:not([data-ton="papier"]):not([data-ton="granit"]), :root[data-ton="sombre"] { --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767; --s-autre: #6f736b; --tricolore: linear-gradient(90deg, #6f9cf0 0%, #9db8f0 30%, #f2f2ee 50%, #f39a9f 70%, #ef5b66 100%) }
 .tricolore { background: var(--tricolore); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800 }
-.nav a.vue.tricolore[aria-current="page"] { background: var(--encre); -webkit-background-clip: border-box; background-clip: border-box; color: var(--papier) }
+.nav a.vue .tricolore { font-weight: 800 }
+.nav a.vue[aria-current="page"] .tricolore { background: linear-gradient(90deg, #8fb0f5 0%, #c9d6f5 35%, #ffffff 50%, #f7b3b7 65%, #ff6b74 100%); -webkit-background-clip: text; background-clip: text; color: transparent }
 .barre-basse { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: 1fr }
 /* ---------- La Une ---------- */
 .une { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 }
@@ -533,6 +534,12 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
   .une-lead p { font-size: 17px }
 }
 /* Onglet YO1tv */
+.src-pub { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px }
+.src-pub-l { border: 1px solid var(--trait); border-radius: 10px; padding: 10px 12px; background: var(--papier) }
+.src-pub-l a { font: 700 15px var(--ui); color: var(--encre) }
+.src-pub-b { display: inline-block; margin-left: 8px; font: 600 11px var(--ui); color: var(--c); border: 1px solid var(--c); border-radius: 999px; padding: 1px 7px; vertical-align: 1px }
+.src-pub-l p { margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: var(--gris) }
+.dessin-jour .bluesky-embed { margin: 6px 0 0 } .dessin-jour iframe { max-width: 100% !important }
 .vue-yo1tv { display: inline-flex; align-items: center; padding-top: 2px; padding-bottom: 2px }
 .vue-yo1tv img { height: 26px; width: auto; display: block }
 .yo1tv-mob img { width: 30px; height: 22px; object-fit: contain }
@@ -645,12 +652,12 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
   <div class="cadre" style="position:relative">
     <div class="liens-vue">
       <a class="vue" href="#edition" data-vue="edition">La Une</a>
-      <a class="vue" href="#themes" data-vue="themes">Thèmes</a>
+      <a class="vue" href="#themes" data-vue="themes">L'édition</a>
       <a class="vue" href="#videos" data-vue="videos">Vidéos</a>
       <a class="vue" href="#mur" data-vue="mur">Le mur</a>
-      <a class="vue tricolore" href="#presidentielle" data-vue="presidentielle">Présidentielle</a>
+      <a class="vue" href="#presidentielle" data-vue="presidentielle"><span class="tricolore">Présidentielle</span></a>
       <a class="vue vue-yo1tv" href="https://akouatik-yo.github.io/YO1tv/" target="_blank" rel="noopener" title="YO1tv, la télé de la Vigie (s'ouvre à part)"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNDAgMjQwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IllPMSI+CiAgPCEtLSBMb2dvIFlPMXR2IHJlY29tcG9zw6kgZW4gdmVjdG9yaWVsIDogw6ljcmFuLCDCqyBZTyDCuyBzb21icmUsIMKrIDEgwrsgYmxldSwgaGFsbyBibGV1IHNvdXMgbCfDqWNyYW4uIC0tPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJoYWxvIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMCI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE2NzdGMCIgc3RvcC1vcGFjaXR5PSIwIi8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzE2NzdGMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzE2NzdGMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyBmaWxsPSIjMEYxQTJFIj4KICAgIDxwYXRoIGQ9Ik01MiAzNFExNzAgMjYgMjg4IDM0UTMxMCAzNiAzMTEgNThMMzEzIDE3NFEzMTIgMTk2IDI5MCAxOThRMTcwIDIwNiA1MCAxOThRMjggMTk2IDI5IDE3NEwzMSA1OFEzMiAzNiA1MiAzNFpNNTYgNDlRNDQgNTAgNDQgNjJMNDIgMTcyUTQyIDE4MyA1NCAxODRRMTcwIDE5MSAyODYgMTg0UTI5OCAxODMgMjk4IDE3MkwyOTYgNjJRMjk2IDUwIDI4NCA0OVExNzAgNDIgNTYgNDlaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KICAgIDxwYXRoIGQ9Ik01OCA3Mkg4NUw5OSAxMDBMMTEzIDcySDE0MEwxMTIgMTIxVjE2MEg4NlYxMjFaIi8+CiAgICA8cGF0aCBkPSJNMTg3IDcyYTQ0IDQ0IDAgMSAxIDAgODhhNDQgNDQgMCAxIDEgMC04OFptMCAyNGEyMCAyMCAwIDEgMCAwIDQwYTIwIDIwIDAgMSAwIDAtNDBaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KICA8L2c+CiAgPHBhdGggZD0iTTI0MCA5MUwyNjMgNzJIMjg1VjE2MEgyNTlWMTAzTDI0NiAxMTBaIiBmaWxsPSIjMTY3N0YwIi8+CiAgPHBhdGggZD0iTTk1IDIwNFExNzAgMjExIDI0NSAyMDQiIHN0cm9rZT0idXJsKCNoYWxvKSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iMjI0IiByeD0iMzQiIHJ5PSI1IiBmaWxsPSIjMTY3N0YwIi8+Cjwvc3ZnPgo=" alt="YO1tv"></a>
-      <a class="vue" href="#reglages" data-vue="reglages">Réglages</a>
+      <a class="vue" href="#reglages" data-vue="reglages" id="lienReglages">Réglages</a>
     </div>
     <span class="esp"></span>
     <span class="compteur-lu" id="compteurLu" title="Thèmes lus dans cette édition"></span>
@@ -764,12 +771,13 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 <!-- ==== Vue Réglages ==== -->
 <div data-vue-bloc="reglages" hidden>
   <section id="reglagesSection"><div class="cadre">
-    <div class="tete-sec"><h2>Réglages</h2><span class="etiq" id="reglagesSous">La rédaction du matin lit ces réglages</span></div>
+    <div class="tete-sec"><h2 id="reglagesTitre">Réglages</h2><span class="etiq" id="reglagesSous">La rédaction du matin lit ces réglages</span></div>
     <details class="bloc proprio" id="blocThemes" open>
       <summary>Thèmes <span class="muet" id="thCompte" style="font-weight:400"></span></summary>
       <div><p class="muet ui" style="font-size:14px;margin-top:0">Cochez les thèmes à publier, choisissez leur fréquence et leur ordre. La rédaction applique ces choix dès l'édition suivante. Chaque thème actif ajoute un peu de travail (et d'usage) à la rédaction du matin.</p><div id="themesListe"></div></div>
     </details>
-    <details class="bloc" id="blocSources">
+    <div class="visiteur" id="sourcesPub" hidden></div>
+    <details class="bloc proprio" id="blocSources">
       <summary>Sources <span class="muet" id="srcCompte" style="font-weight:400"></span></summary>
       <div><div class="filtre-src" id="filtreSrc"></div><div class="src-liste" id="srcListe"><p class="muet ui">Chargement des sources…</p></div></div>
     </details>
@@ -828,7 +836,7 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 
 <nav class="barre-basse" aria-label="Navigation">
   <a href="#edition" data-vue="edition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v9a2 2 0 0 1-2 2"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4"/></svg>La Une</a>
-  <a href="#themes" data-vue="themes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg>Thèmes</a>
+  <a href="#themes" data-vue="themes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg>L'édition</a>
   <a href="#videos" data-vue="videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>Vidéos</a>
   <a href="#mur" data-vue="mur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Mur</a>
   <a href="#presidentielle" data-vue="presidentielle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9H4z"/><path d="M9 11V4h6v7"/><path d="M9 15h6"/></svg><span class="tricolore">2027</span></a>
@@ -1126,6 +1134,7 @@ function rendreEssentiel(e) {
   if (dit) cartes.push(`<a class="une-carte citation" href="#th-${esc(dit.th)}"><span class="kicker">Ils l'ont dit</span><q>${esc(extrait(dit.extrait, 220))}</q><span class="suite"><b>${esc(dit.qui)}</b>${dit.qualite ? ", " + esc(dit.qualite) : ""} · propos publié, non vérifié</span></a>`);
   const vids = ["actu", "decouverte", "humour"].map(k => [k, (e.programme?.[k] || [])[0]]).filter(([, v]) => v?.id);
   if (vids.length) cartes.push(`<div class="une-carte videos"><span class="kicker">À voir</span>${vids.map(([k, v]) => `<a class="une-vid" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener"><span class="vign" data-vid="${esc(v.id)}">${vignettesVid[v.id] ? `<img src="${vignettesVid[v.id]}" alt="">` : ""}</span><span><small>${esc(CAT_VID[k] || k)} · ${esc(v.chaine || "")}</small>${esc(v.titre)}</span></a>`).join("")}<a class="suite" href="#videos">Toutes les vidéos →</a></div>`);
+  const dessin = dessinHtml(e); if (dessin) cartes.unshift(dessin);
   if (e.caricature?.titre) cartes.push(`<a class="une-carte caricature" href="${esc(lienSur(e.caricature.page))}" target="_blank" rel="noopener"><span class="kicker">La caricature d'antan</span><img id="caricImg" alt="${esc(e.caricature.titre)}" hidden><h3>${esc(e.caricature.titre)}</h3><p>${esc(extrait(e.caricature.contexte, 160))}</p></a>`);
   if ((e.traits || []).length) cartes.push(`<div class="une-carte"><span class="kicker">Le trait du jour</span>${e.traits.map(t => `<a class="une-ligne" href="${esc(lienSur(t.u))}" target="_blank" rel="noopener"><b>${esc(t.auteur)}</b>${t.journal ? ` · ${esc(t.journal)}` : ""}<br>${md(extrait(t.description, 140))}</a>`).join("")}</div>`);
   if ((e.chiffres || []).length) cartes.push(`<div class="une-carte"><span class="kicker">Chiffres du jour</span><div class="chiffres-th">${e.chiffres.map(c => `<div class="chiffre"><b>${esc(c.v)}</b><span>${esc(c.l)}</span></div>`).join("")}</div></div>`);
@@ -1137,6 +1146,7 @@ function rendreEssentiel(e) {
     + (themes.length ? `<div class="une-rub large">Dans les thèmes</div><div class="une-themes">${thCartes}</div>` : "")
     + (cartes.length ? `<div class="une-rub large">Et aussi</div><div class="une-cartes">${cartes.join("")}</div>` : "");
   rendreSpectre(e);
+  chargerIntegrationsBsky();
   rendreCaricature(e);
 }
 
@@ -1463,6 +1473,19 @@ async function rendreBarometre() {
   } catch { el.closest(".carte")?.remove(); }
 }
 
+/* ---------- Dessin de presse du jour (publié par son auteur sur Bluesky) ----------
+   Miroir GitHub : intégration officielle de Bluesky (image chez l'auteur, crédit, lien). Artefact : lien seulement
+   (les intégrations y sont bloquées). */
+function dessinHtml(e) {
+  const d = (e.dessins || [])[0]; if (!d?.uri) return "";
+  if (window.VIGIE_MIROIR) return `<div class="une-carte dessin-jour"><span class="kicker">Le dessin du jour</span><blockquote class="bluesky-embed" data-bluesky-uri="${esc(d.uri)}" data-bluesky-cid="${esc(d.cid)}"><p lang="fr">${esc(d.texte)}</p>&mdash; ${esc(d.nom)} (@${esc(d.handle)})</blockquote></div>`;
+  return `<a class="une-carte" href="${esc(d.url)}" target="_blank" rel="noopener"><span class="kicker">Le dessin du jour</span><h3>${esc(d.nom)}</h3><p>${esc(extrait(d.alt || d.texte || "Dessin de presse publié par son auteur sur Bluesky.", 160))}</p><small class="muet ui">Voir le dessin sur Bluesky →</small></a>`;
+}
+function chargerIntegrationsBsky() {
+  if (!window.VIGIE_MIROIR || !document.querySelector(".bluesky-embed")) return;
+  const s = document.createElement("script"); s.async = true; s.src = "https://embed.bsky.app/static/embed.js"; s.charset = "utf-8"; document.body.append(s);
+}
+
 /* ---------- Caricature de la semaine ---------- */
 async function rendreCaricature(e) {
   const c = e.caricature, img = $("#caricImg"); if (!c || !img || !db) return;
@@ -1770,7 +1793,25 @@ async function ecrire(fn, ok) {
 const slug = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "source";
 function appliquerDroits() {
   $$(".proprio").forEach(el => el.hidden = !proprio);
-  $("#reglagesSous").textContent = proprio ? "La rédaction du matin lit ces réglages" : "Les sources lues par la rédaction (lecture seule)";
+  $$(".visiteur").forEach(el => el.hidden = proprio);
+  $("#reglagesSous").textContent = proprio ? "La rédaction du matin lit ces réglages" : "Les sources écrites que lit la rédaction, chaque matin";
+  $("#lienReglages").textContent = $("#reglagesTitre").textContent = proprio ? "Réglages" : "Sources";
+  rendreSourcesPub();
+}
+/* Onglet « Sources » des visiteurs (et du miroir) : les sources écrites, présentées en quelques lignes, avec leur lien */
+const TYPES_ECRITS = s => !["youtube", "direct", "x", "bluesky", "telegram", "mastodon"].includes(s.type);
+const NATURES_PUB = [["media", "Grands médias", "Quotidiens, radios, télévisions et grands titres, en France et à l'étranger."], ["independant", "Indépendants", "Laboratoires d'idées, recherche, institutions, revues et sites spécialisés."], ["marge", "Marges", "Sites militants, radicaux, antisystème ou complotistes : lus pour savoir ce qui circule, jamais pris seuls comme source d'un fait."]];
+const ORDRE_BORDS = ["extreme-gauche", "gauche", "centre-gauche", "centre", "service-public", "centre-droit", "droite", "souverainiste", "extreme-droite", "antisysteme", "universitaire", "specialise", "etranger", "local", "agregateur"];
+function rendreSourcesPub() {
+  const el = $("#sourcesPub"); if (!el || proprio) return;
+  const l = sources.filter(x => x.actif !== false && TYPES_ECRITS(x));
+  if (!l.length) { el.innerHTML = `<p class="muet ui">Chargement des sources…</p>`; return; }
+  const rang = b => { const i = ORDRE_BORDS.indexOf(b); return i < 0 ? 99 : i; };
+  el.innerHTML = `<p class="muet ui" style="font-size:14px;margin:0 0 14px">${l.length} sources écrites, classées par nature puis par bord. Les vidéos et les réseaux sociaux suivis ne figurent pas ici.</p>`
+    + NATURES_PUB.map(([k, titre, desc]) => {
+      const g = l.filter(x => (x.nature || "media") === k).sort((a, b) => rang(a.bord) - rang(b.bord) || a.nom.localeCompare(b.nom, "fr"));
+      return g.length ? `<details class="bloc"><summary>${titre} <span class="muet" style="font-weight:400">${g.length}</span></summary><div><p class="muet ui" style="font-size:13.5px;margin-top:0">${desc}</p><div class="src-pub">${g.map(x => `<div class="src-pub-l"><a href="${esc(x.url || "#")}" target="_blank" rel="noopener">${esc(x.nom)}</a><span class="src-pub-b" style="--c:var(${BORDS[x.bord]?.[1] || "--c0"})">${esc(BORDS[x.bord]?.[0] || x.bord || "")}</span>${x.presentation ? `<p>${esc(x.presentation)}</p>` : ""}</div>`).join("")}</div></div></details>` : "";
+    }).join("");
 }
 
 /* ---------- Présidentielle 2027 (onglet réservé au propriétaire) ---------- */
@@ -2340,7 +2381,7 @@ lireAncre();
   const appliquerSources = () => {
     const premier = !sources.length, m = new Map(sourcesBase.map(x => [x.id, x]));
     for (const [id, d] of Object.entries(sourcesMaj)) { if (d.retire) m.delete(id); else m.set(id, { ...(m.get(id) || {}), ...(d.doc || {}), ...(d.champs || {}), id }); }
-    sources = [...m.values()]; rendreSources();
+    sources = [...m.values()]; rendreSources(); rendreSourcesPub();
     if (premier && sources.length && edition) { rendreThemes(edition); rendreIAnalyse(edition); rendreEssentiel(edition); lierToutesSources(); rendreCartes(); }
     if (vueActive === "videos") rendreProgramme();
   };
