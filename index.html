@@ -488,6 +488,12 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 .une-pastilles { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; white-space: nowrap; gap: 6px 10px; align-items: center; font: 13px/1.3 var(--ui); color: var(--gris); padding: 2px 0 10px; border-bottom: 1px solid var(--encre) }
 .une-pastilles > * { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--trait); border-radius: 999px; padding: 4px 11px; background: var(--papier) }
 .une-pastilles svg { width: 20px; height: 20px } .une-pastilles b { color: var(--encre) }
+:root { --rose-fond: #FCE4EE; --rose-trait: #F1B5CD; --rose-encre: #8E1F55 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]):not([data-ton="papier"]):not([data-ton="granit"]) { --rose-fond: #3E1A2B; --rose-trait: #6E3150; --rose-encre: #F4B6D0 } }
+:root[data-theme="dark"]:not([data-ton="papier"]):not([data-ton="granit"]), :root[data-ton="sombre"] { --rose-fond: #3E1A2B; --rose-trait: #6E3150; --rose-encre: #F4B6D0 }
+.une-pastilles > .cout { background: var(--rose-fond); border-color: var(--rose-trait); color: var(--rose-encre) } .une-pastilles .cout b { color: var(--rose-encre) }
+.pied-projet { max-width: 1180px; margin: 40px auto 0; padding: 14px 16px 24px; border-top: 1px solid var(--trait); font: 13px/1.5 var(--ui); color: var(--gris); text-align: center }
+.pied-projet a { color: inherit }
 .une-haut { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 28px; padding: 14px 0 6px; border-bottom: 3px double var(--encre) }
 .une-lead { display: block; padding-bottom: 12px }
 .une-lead h2 { font: 700 clamp(28px, 4.2vw, 50px)/1.06 var(--titre); margin: 2px 0 10px; letter-spacing: -.012em; text-wrap: balance }
@@ -858,6 +864,7 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
   <section id="presSection"><div class="cadre" id="presRacine"></div></section>
 </div>
 </main>
+<footer class="pied-projet">Projet personnel en cours de construction · en cas de besoin : <a id="contact" data-a="akouatik" data-b="gmail.com">contact</a></footer>
 
 <nav class="barre-basse" aria-label="Navigation">
   <a href="#edition" data-vue="edition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v9a2 2 0 0 1-2 2"/><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4"/></svg>La Une</a>
@@ -883,6 +890,7 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 
 <script>
 "use strict";
+{ const c = document.getElementById("contact"), m = c.dataset.a + "@" + c.dataset.b; c.textContent = m; c.href = "mailto:" + m; }   // adresse assemblée ici, à l'abri des robots
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
@@ -1144,6 +1152,7 @@ function rendreEssentiel(e) {
     ${meteo ? `<a href="#meteo" title="Météo heure par heure">${meteoIco(meteo.code)}<b>${Math.round(meteo.tmin)}° / ${Math.round(meteo.tmax)}°</b> ${esc(meteoTexte(meteo.code))}</a>` : ""}
     <span>Une : 1 min${e.lecture_min ? ` · édition : ${e.lecture_min} min` : ""}</span>
     ${jP > 0 ? `<a href="#presidentielle"><b class="tricolore">J−${jP}</b> présidentielle</a>` : ""}
+    ${e.cout?.usd > 0 ? `<span class="cout" title="Coût de fabrication de cette édition (routine du matin de la Vigie et de YO1tv${e.cout.hebdo_usd ? ", plus la programmation YO1tv du dimanche soir" : ""}), en équivalent crédit API${e.cout.partiel ? " ; mesuré avant la fin de la routine" : ""}">Fabrication : <b>${e.cout.usd.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $</b></span>` : ""}
   </div>`;
   // ancrage visuel : sur le miroir, le dessin du jour ; sinon le chiffre du jour (champ chiffre_une, ou premier chiffre d'un thème)
   const ch = e.chiffre_une?.v ? e.chiffre_une : (() => { for (const t of themes) for (const c of t.chiffres || []) if (c.v) return { ...c, th: t.id }; return null; })();
