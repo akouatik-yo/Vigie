@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Miroir de La Vigie sur GitHub Pages.
 
-  python3 outils/miroir.py besoins EXPORT          -> documents complémentaires à lire (vignettes, images)
-  python3 outils/miroir.py donnees EXPORT          -> reconstruit data/ depuis EXPORT (<collection>/<id>.json)
+  python3 outils/miroir.py donnees BASE            -> reconstruit data/ depuis BASE (<collection>/<id>.json)
   python3 outils/miroir.py page LA-VIGIE.HTML      -> reconstruit index.html (page de l'artefact + miroir.js)
 
-EXPORT est le dossier rempli par l'outil ArtifactData (out_dir) : un fichier JSON par document.
-Seules les collections lisibles par un visiteur sont copiées (jamais consignes, retours, config/prompt,
-config/collecteur, config/mode)."""
+BASE est la copie des documents publiés que tient le dépôt privé de la Vigie (etat/base) ; la routine du matin
+appelle `donnees` à la fin de son travail (diffuser.sh). Seules les collections lisibles par un visiteur sont
+copiées (jamais consignes, retours, config/prompt, config/collecteur, config/mode)."""
 import json, os, shutil, sys
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,19 +23,6 @@ def docs(export):
         for f in sorted(os.listdir(d)):
             if f.endswith(".json") and f"{col}/{f[:-5]}" not in DOCS_EXCLUS:
                 yield col, f[:-5], os.path.join(d, f)
-
-
-def besoins(export):
-    eds = sorted(os.listdir(os.path.join(export, "editions")))
-    if not eds:
-        return
-    print("vignettes date ==", eds[-1][:-5])
-    for f in eds:
-        e = json.load(open(os.path.join(export, "editions", f)))
-        for cle in ("image_jour", "caricature"):
-            doc = (e.get(cle) or {}).get("doc")
-            if doc:
-                print("document", doc)
 
 
 def donnees(export):
@@ -64,4 +50,4 @@ def page(source):
 
 if __name__ == "__main__":
     cmd, arg = sys.argv[1], sys.argv[2]
-    {"besoins": besoins, "donnees": donnees, "page": page}[cmd](arg)
+    {"donnees": donnees, "page": page}[cmd](arg)
