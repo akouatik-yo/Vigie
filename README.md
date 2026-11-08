@@ -6,6 +6,7 @@ Version de test, à usage personnel.
 - `index.html` : la page de la Vigie, identique à celle de l'artefact, précédée de `miroir.js`.
 - `miroir.js` : remplace la base de l'artefact par les fichiers de `data/` (même interface, lecture seule, vue visiteur, pas de « Demander »).
 - `stats.js` : mesure d'audience GoatCounter (script officiel, licence ISC, hébergé ici pour moins dépendre des bloqueurs), sans cookie ; ajouté par `miroir.py page` ; tableau de bord privé de Yoann (site « vigie »).
+- `suivi.js` : événements d'usage envoyés à GoatCounter (`clic/…` : vues, onglets, boutons, liens sortants par site ; `reglage/…`), jamais de texte saisi ; même fichier que dans YO1tv ; ajouté par `miroir.py page`.
 - `data/` : les documents de la base (éditions des 60 derniers jours, murs, vidéos, présidentielle…), réécrits chaque matin à la fin de la routine de la Vigie (`outils/miroir.py donnees`, depuis la copie de la base que tient le dépôt privé).
 - La page est reconstruite à chaque nouvelle version de la Vigie : `python3 outils/miroir.py page chemin/vers/la-vigie.html`.
 

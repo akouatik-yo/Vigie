@@ -45,7 +45,8 @@ def page(source):
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             '<meta name="robots" content="noindex">\n<script src="miroir.js"></script>\n'
             # Mesure d'audience GoatCounter (sans cookie ; tableau de bord privé de Yoann), script hébergé ici (stats.js)
-            '<script data-goatcounter="https://vigie.goatcounter.com/count" async src="stats.js"></script>\n')
+            '<script data-goatcounter="https://vigie.goatcounter.com/count" async src="stats.js"></script>\n'
+            '<script defer src="suivi.js"></script>\n')
     open(os.path.join(RACINE, "index.html"), "w", encoding="utf-8").write(tete + html)
     print("index.html reconstruit depuis", source)
 
