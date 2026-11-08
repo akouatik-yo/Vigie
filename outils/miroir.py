@@ -2,7 +2,7 @@
 """Miroir de La Vigie sur GitHub Pages.
 
   python3 outils/miroir.py donnees BASE            -> reconstruit data/ depuis BASE (<collection>/<id>.json)
-  python3 outils/miroir.py page LA-VIGIE.HTML      -> reconstruit index.html (page de l'artefact + miroir.js)
+  python3 outils/miroir.py page LA-VIGIE.HTML      -> reconstruit index.html (page de l'artefact + miroir.js + mesure d'audience stats.js)
 
 BASE est la copie des documents publiés que tient le dépôt privé de la Vigie (etat/base) ; la routine du matin
 appelle `donnees` à la fin de son travail (diffuser.sh). Seules les collections lisibles par un visiteur sont
@@ -43,7 +43,9 @@ def page(source):
     html = open(source, encoding="utf-8").read()
     tete = ('<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
-            '<meta name="robots" content="noindex">\n<script src="miroir.js"></script>\n')
+            '<meta name="robots" content="noindex">\n<script src="miroir.js"></script>\n'
+            # Mesure d'audience GoatCounter (sans cookie ; tableau de bord privé de Yoann), script hébergé ici (stats.js)
+            '<script data-goatcounter="https://vigie.goatcounter.com/count" async src="stats.js"></script>\n')
     open(os.path.join(RACINE, "index.html"), "w", encoding="utf-8").write(tete + html)
     print("index.html reconstruit depuis", source)
 
