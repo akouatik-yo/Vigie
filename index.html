@@ -566,18 +566,12 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
 #spectre { margin-bottom: 18px }
 #titreJour { display: none } /* le titre du jour est la manchette de la Une */
 .une-themes { align-items: start }
-/* Onglet YO1tv */
 .src-pub { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px }
 .src-pub-l { border: 1px solid var(--trait); border-radius: 10px; padding: 10px 12px; background: var(--papier) }
 .src-pub-l a { font: 700 15px var(--ui); color: var(--encre) }
 .src-pub-b { display: inline-block; margin-left: 8px; font: 600 11px var(--ui); color: var(--c); border: 1px solid var(--c); border-radius: 999px; padding: 1px 7px; vertical-align: 1px }
 .src-pub-l p { margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: var(--gris) }
 .dessin-jour .bluesky-embed { margin: 6px 0 0 } .dessin-jour iframe { max-width: 100% !important }
-.vue-yo1tv { display: inline-flex; align-items: center; padding-top: 2px; padding-bottom: 2px }
-.vue-yo1tv img { height: 26px; width: auto; display: block }
-.yo1tv-mob img { width: 30px; height: 22px; object-fit: contain }
-:root[data-ton="sombre"] .vue-yo1tv img, :root[data-ton="sombre"] .yo1tv-mob img { filter: invert(1) hue-rotate(180deg) }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]):not([data-ton="papier"]):not([data-ton="granit"]) .vue-yo1tv img, :root:not([data-theme="light"]):not([data-ton="papier"]):not([data-ton="granit"]) .yo1tv-mob img { filter: invert(1) hue-rotate(180deg) } }
 
 .pres { display: grid; gap: 28px; padding-bottom: 40px }
 .pres-tete { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 24px; padding-top: 10px }
@@ -689,7 +683,6 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
       <a class="vue" href="#videos" data-vue="videos">Vidéos</a>
       <a class="vue" href="#mur" data-vue="mur">Le mur</a>
       <a class="vue" href="#presidentielle" data-vue="presidentielle"><span class="tricolore">Présidentielle</span></a>
-      <a class="vue vue-yo1tv" href="https://akouatik-yo.github.io/YO1tv/" target="_blank" rel="noopener" title="YO1tv, la télé de la Vigie (s'ouvre à part)"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNDAgMjQwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IllPMSI+CiAgPCEtLSBMb2dvIFlPMXR2IHJlY29tcG9zw6kgZW4gdmVjdG9yaWVsIDogw6ljcmFuLCDCqyBZTyDCuyBzb21icmUsIMKrIDEgwrsgYmxldSwgaGFsbyBibGV1IHNvdXMgbCfDqWNyYW4uIC0tPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJoYWxvIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMCI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE2NzdGMCIgc3RvcC1vcGFjaXR5PSIwIi8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzE2NzdGMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzE2NzdGMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyBmaWxsPSIjMEYxQTJFIj4KICAgIDxwYXRoIGQ9Ik01MiAzNFExNzAgMjYgMjg4IDM0UTMxMCAzNiAzMTEgNThMMzEzIDE3NFEzMTIgMTk2IDI5MCAxOThRMTcwIDIwNiA1MCAxOThRMjggMTk2IDI5IDE3NEwzMSA1OFEzMiAzNiA1MiAzNFpNNTYgNDlRNDQgNTAgNDQgNjJMNDIgMTcyUTQyIDE4MyA1NCAxODRRMTcwIDE5MSAyODYgMTg0UTI5OCAxODMgMjk4IDE3MkwyOTYgNjJRMjk2IDUwIDI4NCA0OVExNzAgNDIgNTYgNDlaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KICAgIDxwYXRoIGQ9Ik01OCA3Mkg4NUw5OSAxMDBMMTEzIDcySDE0MEwxMTIgMTIxVjE2MEg4NlYxMjFaIi8+CiAgICA8cGF0aCBkPSJNMTg3IDcyYTQ0IDQ0IDAgMSAxIDAgODhhNDQgNDQgMCAxIDEgMC04OFptMCAyNGEyMCAyMCAwIDEgMCAwIDQwYTIwIDIwIDAgMSAwIDAtNDBaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KICA8L2c+CiAgPHBhdGggZD0iTTI0MCA5MUwyNjMgNzJIMjg1VjE2MEgyNTlWMTAzTDI0NiAxMTBaIiBmaWxsPSIjMTY3N0YwIi8+CiAgPHBhdGggZD0iTTk1IDIwNFExNzAgMjExIDI0NSAyMDQiIHN0cm9rZT0idXJsKCNoYWxvKSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iMjI0IiByeD0iMzQiIHJ5PSI1IiBmaWxsPSIjMTY3N0YwIi8+Cjwvc3ZnPgo=" alt="YO1tv"></a>
       <a class="vue" href="#reglages" data-vue="reglages" id="lienReglages">Réglages</a>
     </div>
     <span class="esp"></span>
@@ -874,7 +867,6 @@ details.bloc > div { padding: 0 20px 20px; min-width: 0 }
   <a href="#videos" data-vue="videos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>Vidéos</a>
   <a href="#mur" data-vue="mur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Mur</a>
   <a href="#presidentielle" data-vue="presidentielle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9H4z"/><path d="M9 11V4h6v7"/><path d="M9 15h6"/></svg><span class="tricolore">2027</span></a>
-  <a href="https://akouatik-yo.github.io/YO1tv/" target="_blank" rel="noopener" class="yo1tv-mob"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNDAgMjQwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IllPMSI+CiAgPCEtLSBMb2dvIFlPMXR2IHJlY29tcG9zw6kgZW4gdmVjdG9yaWVsIDogw6ljcmFuLCDCqyBZTyDCuyBzb21icmUsIMKrIDEgwrsgYmxldSwgaGFsbyBibGV1IHNvdXMgbCfDqWNyYW4uIC0tPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJoYWxvIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMCI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE2NzdGMCIgc3RvcC1vcGFjaXR5PSIwIi8+PHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzE2NzdGMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzE2NzdGMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyBmaWxsPSIjMEYxQTJFIj4KICAgIDxwYXRoIGQ9Ik01MiAzNFExNzAgMjYgMjg4IDM0UTMxMCAzNiAzMTEgNThMMzEzIDE3NFEzMTIgMTk2IDI5MCAxOThRMTcwIDIwNiA1MCAxOThRMjggMTk2IDI5IDE3NEwzMSA1OFEzMiAzNiA1MiAzNFpNNTYgNDlRNDQgNTAgNDQgNjJMNDIgMTcyUTQyIDE4MyA1NCAxODRRMTcwIDE5MSAyODYgMTg0UTI5OCAxODMgMjk4IDE3MkwyOTYgNjJRMjk2IDUwIDI4NCA0OVExNzAgNDIgNTYgNDlaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KICAgIDxwYXRoIGQ9Ik01OCA3Mkg4NUw5OSAxMDBMMTEzIDcySDE0MEwxMTIgMTIxVjE2MEg4NlYxMjFaIi8+CiAgICA8cGF0aCBkPSJNMTg3IDcyYTQ0IDQ0IDAgMSAxIDAgODhhNDQgNDQgMCAxIDEgMC04OFptMCAyNGEyMCAyMCAwIDEgMCAwIDQwYTIwIDIwIDAgMSAwIDAtNDBaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KICA8L2c+CiAgPHBhdGggZD0iTTI0MCA5MUwyNjMgNzJIMjg1VjE2MEgyNTlWMTAzTDI0NiAxMTBaIiBmaWxsPSIjMTY3N0YwIi8+CiAgPHBhdGggZD0iTTk1IDIwNFExNzAgMjExIDI0NSAyMDQiIHN0cm9rZT0idXJsKCNoYWxvKSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICA8ZWxsaXBzZSBjeD0iMTcwIiBjeT0iMjI0IiByeD0iMzQiIHJ5PSI1IiBmaWxsPSIjMTY3N0YwIi8+Cjwvc3ZnPgo=" alt="" aria-hidden="true">YO1tv</a>
   <button type="button" id="btnDemanderMobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>Demander</button>
 </nav>
 <div class="panneau-themes" id="panneauThemes" hidden></div>
@@ -1154,7 +1146,7 @@ function rendreEssentiel(e) {
     ${meteo ? `<a href="#meteo" title="Météo heure par heure">${meteoIco(meteo.code)}<b>${Math.round(meteo.tmin)}° / ${Math.round(meteo.tmax)}°</b> ${esc(meteoTexte(meteo.code))}</a>` : ""}
     <span>Une : 1 min${e.lecture_min ? ` · édition : ${e.lecture_min} min` : ""}</span>
     ${jP > 0 ? `<a href="#presidentielle"><b class="tricolore">J−${jP}</b> présidentielle</a>` : ""}
-    ${e.cout?.usd > 0 ? `<span class="cout" title="Coût de fabrication de cette édition (routine du matin de la Vigie et de YO1tv${e.cout.hebdo_usd ? ", plus la programmation YO1tv du dimanche soir" : ""}), en équivalent crédit API${e.cout.partiel ? " ; mesuré avant la fin de la routine" : ""}">Fabrication : <b>${e.cout.usd.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $</b></span>` : ""}
+    ${e.cout?.usd > 0 ? `<span class="cout" title="Coût de fabrication de cette édition (routine du matin de la Vigie${e.cout.hebdo_usd ? ", plus la programmation YO1tv du dimanche soir" : ""}), en équivalent crédit API${e.cout.partiel ? " ; mesuré avant la fin de la routine" : ""}">Fabrication : <b>${e.cout.usd.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $</b></span>` : ""}
   </div>`;
   // ancrage visuel : sur le miroir, le dessin du jour ; sinon le chiffre du jour (champ chiffre_une, ou premier chiffre d'un thème)
   const ch = e.chiffre_une?.v ? e.chiffre_une : (() => { for (const t of themes) for (const c of t.chiffres || []) if (c.v) return { ...c, th: t.id }; return null; })();
